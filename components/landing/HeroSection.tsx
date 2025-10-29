@@ -24,13 +24,13 @@ export function HeroSection() {
           <AnimatedGrid className="z-0 opacity-30" />
 
           {/* Layer 2: Floating 3D Shapes (Depth: Far) */}
-          <FloatingShapes className="z-10 opacity-60" shapeCount={5} />
+          <FloatingShapes className="z-10 opacity-60" shapeCount={4} />
 
           {/* Layer 3: Connection Network (Depth: Mid) */}
-          <ConnectionNetwork className="z-20 opacity-70" nodeCount={10} />
+          <ConnectionNetwork className="z-20 opacity-70" nodeCount={8} />
 
           {/* Layer 4: Interactive Particle Field (Depth: Near) */}
-          <ParticleField className="z-30 opacity-50" particleCount={60} />
+          <ParticleField className="z-30 opacity-50" particleCount={40} />
         </>
       )}
 

@@ -89,10 +89,26 @@ export function ParticleField({
     };
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
+    // Intersection Observer to pause when off-screen
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries[0].isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(canvas);
+
     // Animation loop
     let animationId: number;
     const animate = () => {
       if (!ctx || !canvas) return;
+
+      // Skip rendering if not visible
+      if (!isVisible) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -136,22 +152,25 @@ export function ParticleField({
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fill();
 
-        // Draw connections to nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const other = particles[j];
-          const dx2 = particle.x - other.x;
-          const dy2 = particle.y - other.y;
-          const distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        // Draw connections to nearby particles (limit to improve performance)
+        // Only check every 3rd particle to reduce calculations
+        if (i % 3 === 0) {
+          for (let j = i + 1; j < Math.min(i + 10, particles.length); j++) {
+            const other = particles[j];
+            const dx2 = particle.x - other.x;
+            const dy2 = particle.y - other.y;
+            const distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
-          if (distance2 < 120) {
-            ctx.strokeStyle = particle.color;
-            ctx.globalAlpha = (1 - distance2 / 120) * 0.2;
-            ctx.lineWidth = 0.5;
+            if (distance2 < 100) {
+              ctx.strokeStyle = particle.color;
+              ctx.globalAlpha = (1 - distance2 / 100) * 0.15;
+              ctx.lineWidth = 0.5;
 
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(other.x, other.y);
-            ctx.stroke();
+              ctx.beginPath();
+              ctx.moveTo(particle.x, particle.y);
+              ctx.lineTo(other.x, other.y);
+              ctx.stroke();
+            }
           }
         }
       });
@@ -167,6 +186,7 @@ export function ParticleField({
     return () => {
       window.removeEventListener("resize", updateSize);
       window.removeEventListener("mousemove", handleMouseMove);
+      observer.disconnect();
       cancelAnimationFrame(animationId);
     };
   }, [particleCount, mounted]);
@@ -182,6 +202,7 @@ export function ParticleField({
       className={`pointer-events-none absolute inset-0 ${className}`}
       style={{
         mixBlendMode: "screen",
+        willChange: "transform",
       }}
     />
   );

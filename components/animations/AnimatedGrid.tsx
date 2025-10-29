@@ -50,8 +50,24 @@ export function AnimatedGrid({ className = "" }: AnimatedGridProps) {
       alpha: [0.3, 0.2, 0.15],
     };
 
+    // Intersection Observer to pause when off-screen
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries[0].isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(canvas);
+
     const animate = () => {
       if (!ctx || !canvas) return;
+
+      // Skip rendering if not visible
+      if (!isVisible) {
+        requestAnimationFrame(animate);
+        return;
+      }
 
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -119,6 +135,7 @@ export function AnimatedGrid({ className = "" }: AnimatedGridProps) {
 
     return () => {
       window.removeEventListener("resize", updateSize);
+      observer.disconnect();
     };
   }, [mounted]);
 
@@ -133,6 +150,7 @@ export function AnimatedGrid({ className = "" }: AnimatedGridProps) {
       className={`pointer-events-none absolute inset-0 opacity-40 ${className}`}
       style={{
         mixBlendMode: "screen",
+        willChange: "transform",
       }}
     />
   );
