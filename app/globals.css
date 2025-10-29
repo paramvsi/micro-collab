@@ -13,27 +13,27 @@
        ======================================== */
 
     /* Primary Gradients */
-    --gradient-primary: linear-gradient(135deg, #6366F1, #EC4899, #F97316);
-    --gradient-accent: linear-gradient(135deg, #10B981, #3B82F6);
+    --gradient-primary: linear-gradient(135deg, #6366f1, #ec4899, #f97316);
+    --gradient-accent: linear-gradient(135deg, #10b981, #3b82f6);
 
     /* Background System */
-    --color-bg-dark: #0F1115; /* Charcoal Black - Hero sections */
+    --color-bg-dark: #0f1115; /* Charcoal Black - Hero sections */
     --color-bg-section: #141517; /* Dark Neutral - Feature/Info sections */
-    --color-surface: #1E1E26; /* Graphite Gray - Cards & elevated surfaces */
-    --color-bg-light: #F9FAFB; /* Porcelain White - Light mode */
+    --color-surface: #1e1e26; /* Graphite Gray - Cards & elevated surfaces */
+    --color-bg-light: #f9fafb; /* Porcelain White - Light mode */
 
     /* Text Colors */
-    --color-text-primary: #FFFFFF; /* White - Headlines & primary text */
-    --color-text-secondary: #9CA3AF; /* Steel Gray - Body text & descriptions */
+    --color-text-primary: #ffffff; /* White - Headlines & primary text */
+    --color-text-secondary: #9ca3af; /* Steel Gray - Body text & descriptions */
 
     /* Borders & Dividers */
-    --color-border: #27272A; /* Smoky Gray - Subtle borders */
+    --color-border: #27272a; /* Smoky Gray - Subtle borders */
 
     /* Feedback Colors */
-    --color-success: #22C55E; /* Green - Success states */
-    --color-warning: #EAB308; /* Yellow - Warning states */
-    --color-error: #F43F5E; /* Red - Error states */
-    --color-info: #38BDF8; /* Sky Blue - Info states */
+    --color-success: #22c55e; /* Green - Success states */
+    --color-warning: #eab308; /* Yellow - Warning states */
+    --color-error: #f43f5e; /* Red - Error states */
+    --color-info: #38bdf8; /* Sky Blue - Info states */
 
     /* Design System Tokens */
     --radius-base: 0.75rem; /* 12px - Base border radius */
@@ -42,9 +42,9 @@
     --transition: all 0.3s ease-in-out; /* Standard transition */
 
     /* Typography System */
-    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
-    --font-body: 'Inter', system-ui, sans-serif;
-    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", "Courier New", monospace;
 
     /* Light mode defaults */
     --background: 249 250 251; /* #F9FAFB - Porcelain White */
@@ -68,7 +68,9 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
     font-family: var(--font-body);
   }
 
@@ -118,6 +120,22 @@
   /* Gradient text - Accent gradient (Emerald → Sky Blue) */
   .gradient-text-accent {
     background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient subtext - Subtle gradient for secondary headings */
+  .gradient-subtext {
+    background: linear-gradient(135deg, #818cf8, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient subtext accent - Alternative gradient for variety */
+  .gradient-subtext-accent {
+    background: linear-gradient(135deg, #10b981, #3b82f6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -241,6 +259,55 @@
     transform: translateY(-4px) scale(1.02);
   }
 
+  /* Enhanced card with subtle glow - for How It Works style sections */
+  .card-glow {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 12px rgba(236, 72, 153, 0.1);
+    border-radius: var(--radius-base);
+    transition: all 0.3s ease;
+  }
+
+  .card-glow:hover {
+    box-shadow: 0 0 18px rgba(236, 72, 153, 0.25);
+    transform: translateY(-4px);
+    border-color: rgba(236, 72, 153, 0.2);
+  }
+
+  /* Gradient ring effect for cards */
+  .card-gradient-ring {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-base);
+    transition: all 0.3s ease;
+  }
+
+  .card-gradient-ring::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-base);
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.3),
+      rgba(236, 72, 153, 0.3),
+      rgba(249, 115, 22, 0.3)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .card-gradient-ring:hover::before {
+    opacity: 1;
+  }
+
   /* ========================================
      Section System - Background Hierarchy
      Smooth visual transitions across page
@@ -266,6 +333,20 @@
   /* Feature/Info Sections - Dark neutral solid */
   .section-dark {
     background-color: var(--color-bg-section);
+  }
+
+  /* Section with depth gradient - Subtle radial glow behind content */
+  .section-depth {
+    position: relative;
+    background-color: var(--color-bg-section);
+  }
+
+  .section-depth::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08), transparent 70%);
+    pointer-events: none;
   }
 
   /* Highlight/CTA Sections - Subtle gradient overlay */
@@ -368,6 +449,197 @@
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* Section heading spacing - Improved visual rhythm */
+  .section-heading {
+    margin-bottom: 1rem;
+  }
+
+  .section-subtext {
+    color: var(--color-text-secondary);
+    font-size: 1.125rem;
+    line-height: 1.75;
+    margin-bottom: 3rem;
+  }
+
+  /* Consistent icon sizing */
+  .icon-standard {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .icon-large {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  /* Icon container for consistent alignment */
+  .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  /* Badge with gradient text for helpers count */
+  .badge-gradient-accent {
+    background: linear-gradient(90deg, #10b981, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+  }
+
+  /* Hover ring effect for cards */
+  .card-hover-ring {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .card-hover-ring::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.4),
+      rgba(236, 72, 153, 0.4),
+      rgba(249, 115, 22, 0.4)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .card-hover-ring:hover::after {
+    opacity: 1;
+  }
+
+  /* Section with radial gradient focal point */
+  .section-radial-focus {
+    position: relative;
+    background-color: var(--color-bg-section);
+  }
+
+  .section-radial-focus::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 40% 60%, rgba(99, 102, 241, 0.06), transparent 80%);
+    pointer-events: none;
+  }
+
+  /* Enhanced card interaction */
+  .card-enhanced {
+    background: var(--color-surface);
+    border-radius: var(--radius-base);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+  }
+
+  .card-enhanced:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 24px rgba(236, 72, 153, 0.3);
+    border-color: rgba(236, 72, 153, 0.5);
+  }
+
+  /* Testimonials section - Soft spotlight gradient */
+  .section-testimonial-spotlight {
+    position: relative;
+    background-color: var(--color-bg-section);
+  }
+
+  .section-testimonial-spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 60%, rgba(99, 102, 241, 0.06), transparent 80%);
+    pointer-events: none;
+  }
+
+  /* Testimonial card with glow on hover */
+  .testimonial-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-base);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+  }
+
+  .testimonial-card:hover {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.25);
+    transform: translateY(-4px);
+    border-color: rgba(236, 72, 153, 0.2);
+  }
+
+  /* Testimonial quote text with improved contrast */
+  .testimonial-quote {
+    color: #e5e7eb;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Testimonial meta info (role, name) */
+  .testimonial-meta {
+    color: #9ca3af;
+    font-size: 0.9rem;
+  }
+
+  /* Testimonial divider with gradient glow */
+  .testimonial-divider {
+    border-top: 1px solid rgba(236, 72, 153, 0.25);
+    margin-top: 1.5rem;
+  }
+
+  /* Stat number with gradient fill */
+  .stat-gradient {
+    background: linear-gradient(90deg, #6366f1, #ec4899, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+  }
+
+  /* Avatar with border ring */
+  .avatar-ring {
+    display: inline-block;
+    border: 2px solid rgba(236, 72, 153, 0.5);
+    border-radius: 50%;
+    padding: 0.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .avatar-ring:hover {
+    border-color: rgba(236, 72, 153, 0.8);
+    box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
+  }
+
+  /* Pulsing gradient overlay for energy effect */
+  .section-pulse-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.05), transparent 70%);
+    animation: sectionPulse 8s infinite alternate;
+    pointer-events: none;
+  }
+
+  @keyframes sectionPulse {
+    from {
+      opacity: 0.05;
+    }
+    to {
+      opacity: 0.12;
+    }
   }
 
   /* Smooth scrolling for anchor links */

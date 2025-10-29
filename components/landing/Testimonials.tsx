@@ -49,7 +49,7 @@ export function Testimonials() {
       transition: {
         delay: i * 0.15,
         duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1],
+        ease: [0.25, 0.1, 0.25, 1] as const,
       },
     }),
   };
@@ -62,41 +62,40 @@ export function Testimonials() {
       scale: 1,
       transition: {
         duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1],
+        ease: [0.25, 0.1, 0.25, 1] as const,
       },
     },
   };
 
   return (
-    <section className="section-dark relative overflow-hidden">
-      {/* Background Accent */}
+    <section className="section-testimonial-spotlight relative overflow-hidden">
+      {/* Pulsing energy overlay */}
+      <div className="section-pulse-overlay" />
+
+      {/* Background Accent Glow */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 0.2, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1 }}
-        className="absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2"
+        className="absolute top-0 left-1/2 h-96 w-96 -translate-x-1/2"
       >
         <div className="glow-indigo h-full w-full" />
       </motion.div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          {...scrollReveal}
-          variants={fadeInUp}
-          className="mb-16 text-center"
-        >
-          <h2 className="mb-4 font-display text-4xl font-bold text-white sm:text-5xl md:text-6xl">
+        <motion.div {...scrollReveal} variants={fadeInUp} className="mb-16 text-center">
+          <h2 className="section-heading font-display text-4xl font-bold text-white sm:text-5xl md:text-6xl">
             Loved By <span className="gradient-text">Developers</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-steel">
+          <p className="section-subtext mx-auto max-w-2xl">
             Real feedback from developers who found the help they needed.
           </p>
         </motion.div>
 
         {/* Testimonials Grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-6 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
@@ -107,12 +106,9 @@ export function Testimonials() {
               variants={cardVariants}
               className="group relative"
             >
-              {/* Testimonial Card with Shadcn */}
-              <motion.div
-                whileHover={{ scale: 1.03, y: -8 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Card variant="glass" className="h-full relative overflow-visible">
+              {/* Testimonial Card with enhanced glow */}
+              <motion.div whileHover={{ scale: 1.03, y: -8 }} transition={{ duration: 0.3 }}>
+                <Card variant="glass" className="testimonial-card relative h-full overflow-visible">
                   <CardHeader>
                     {/* Rating Stars with stagger */}
                     <div className="mb-4 flex gap-1">
@@ -123,15 +119,15 @@ export function Testimonials() {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ delay: index * 0.15 + i * 0.05 + 0.3 }}
-                          className="text-xl text-warning"
+                          className="text-warning text-xl"
                         >
                           ⭐
                         </motion.span>
                       ))}
                     </div>
 
-                    {/* Quote */}
-                    <CardDescription className="text-base text-white/90 mb-4">
+                    {/* Quote with improved typography */}
+                    <CardDescription className="testimonial-quote mb-4">
                       &ldquo;{testimonial.quote}&rdquo;
                     </CardDescription>
 
@@ -153,8 +149,8 @@ export function Testimonials() {
                     </div>
                   </CardHeader>
 
-                  <CardFooter className="border-t border-white/10 pt-4">
-                    {/* Author */}
+                  <CardFooter className="testimonial-divider pt-6">
+                    {/* Author with avatar ring */}
                     <motion.div
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
@@ -164,15 +160,13 @@ export function Testimonials() {
                     >
                       <motion.div
                         whileHover={{ scale: 1.2, rotate: 10 }}
-                        className="text-3xl"
+                        className="avatar-ring text-3xl"
                       >
                         {testimonial.avatar}
                       </motion.div>
                       <div>
-                        <div className="font-semibold text-white">
-                          {testimonial.name}
-                        </div>
-                        <div className="text-xs text-steel">{testimonial.role}</div>
+                        <div className="font-semibold text-white">{testimonial.name}</div>
+                        <div className="testimonial-meta">{testimonial.role}</div>
                       </div>
                     </motion.div>
                   </CardFooter>
@@ -190,43 +184,43 @@ export function Testimonials() {
           ))}
         </div>
 
-        {/* Trust Stats */}
+        {/* Trust Stats with gradient numbers */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
           transition={{ staggerChildren: 0.15 }}
-          className="mt-16 grid gap-8 text-center sm:grid-cols-3"
+          className="mt-16 grid gap-8 text-center sm:grid-cols-2 md:grid-cols-3"
         >
           <motion.div variants={counterVariants} className="group">
             <motion.div
-              whileHover={{ scale: 1.1, color: "#EC4899" }}
+              whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.3 }}
-              className="mb-2 font-display text-4xl font-bold text-white"
+              className="stat-gradient font-display mb-2 text-4xl"
             >
               4.8/5
             </motion.div>
-            <div className="text-sm text-steel">Average Rating</div>
+            <div className="testimonial-meta">Average Rating</div>
           </motion.div>
           <motion.div variants={counterVariants} className="group">
             <motion.div
-              whileHover={{ scale: 1.1, color: "#10B981" }}
+              whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.3 }}
-              className="mb-2 font-display text-4xl font-bold text-white"
+              className="stat-gradient font-display mb-2 text-4xl"
             >
               500+
             </motion.div>
-            <div className="text-sm text-steel">Sessions Completed</div>
+            <div className="testimonial-meta">Sessions Completed</div>
           </motion.div>
-          <motion.div variants={counterVariants} className="group">
+          <motion.div variants={counterVariants} className="group sm:col-span-2 md:col-span-1">
             <motion.div
-              whileHover={{ scale: 1.1, color: "#3B82F6" }}
+              whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.3 }}
-              className="mb-2 font-display text-4xl font-bold text-white"
+              className="stat-gradient font-display mb-2 text-4xl"
             >
               98%
             </motion.div>
-            <div className="text-sm text-steel">Satisfaction Rate</div>
+            <div className="testimonial-meta">Satisfaction Rate</div>
           </motion.div>
         </motion.div>
       </div>
