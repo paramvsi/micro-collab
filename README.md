@@ -1,0 +1,150 @@
+# 🧩 MicroCollab
+
+> **Find help fast. Collaborate smart.**
+
+A marketplace platform connecting developers and small teams with experienced peers for short, focused help sessions (1-4 hours).
+
+![MicroCollab](https://img.shields.io/badge/Next.js-16.0-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-19.2-blue?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=for-the-badge&logo=supabase)
+
+## ✨ Features
+
+### Core Features
+- 🔍 **Browse Requests** - Filter and search for help opportunities
+- 📝 **Post Requests** - Describe your problem and get offers
+- 💬 **Real-time Chat** - Collaborate in session rooms with live messaging
+- ⭐ **Rating System** - Bidirectional feedback for quality assurance
+- 🎯 **Demo Mode** - Try the platform with simulated marketplace activity
+- 👥 **Dual Roles** - Act as Requester, Helper, or both
+
+### Tech Highlights
+- ⚡ **Next.js 16** with App Router and React Server Components
+- 🎨 **Tailwind CSS v4** with custom design tokens
+- 🔐 **Supabase Auth** with Row Level Security
+- 📊 **Real-time Updates** via Supabase Realtime
+- 🧪 **Full Testing Suite** with Vitest and Playwright
+- 🚀 **Free Tier Deployment** on Vercel + Supabase
+
+## 🏗️ Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | Next.js 16, React 19, TypeScript 5 |
+| **Styling** | Tailwind CSS v4, shadcn/ui, Radix UI |
+| **State** | Zustand, React Hook Form + Zod |
+| **Backend** | Supabase (Auth + PostgreSQL + Realtime) |
+| **Animations** | Framer Motion |
+| **Icons** | Lucide React |
+| **Testing** | Vitest, Playwright, Testing Library |
+| **Deployment** | Vercel (frontend) + Supabase (backend) |
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 20+ and npm
+- Supabase account (free tier)
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/microcollab.git
+   cd microcollab
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Setup environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Update `.env.local` with your Supabase credentials:
+   - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anon key
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser**
+   Navigate to [http://localhost:3003](http://localhost:3003)
+
+## 📁 Project Structure
+
+```
+microcollab/
+├── app/                    # Next.js App Router
+│   ├── (marketing)/        # Landing page
+│   ├── (dashboard)/        # Protected routes
+│   ├── demo/               # Public demo mode
+│   └── api/                # API routes
+├── components/
+│   ├── ui/                 # shadcn/ui components
+│   ├── features/           # Feature-specific components
+│   └── layout/             # Shared layouts
+├── lib/
+│   ├── api/                # Data providers (mock + Supabase)
+│   ├── services/           # Business logic layer
+│   ├── hooks/              # Custom React hooks
+│   ├── stores/             # Zustand stores
+│   └── utils/              # Utility functions
+├── types/                  # TypeScript type definitions
+└── config/                 # App configuration
+```
+
+## 🧪 Testing
+
+```bash
+# Run unit tests
+npm run test
+
+# Run E2E tests
+npm run test:e2e
+
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+```
+
+## 📚 Documentation
+
+- [Development Plan](./MicroCollabPlan.md) - Comprehensive phase-by-phase plan
+- [Product Spec](./microcollab_product_spec_v_1.md) - Product requirements
+
+## 🗺️ Roadmap
+
+- [x] **Phase 1A** - Project initialization and setup
+- [ ] **Phase 1B** - Landing page and demo mode
+- [ ] **Phase 1C** - Core marketplace features
+- [ ] **Phase 1D** - Session collaboration room
+- [ ] **Phase 2** - Real-time integration
+- [ ] **Phase 3** - Payments and integrations
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+
+## 📄 License
+
+MIT License - see [LICENSE](./LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- Powered by [Supabase](https://supabase.com/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+
+---
+
+**Made with ❤️ for the developer community**

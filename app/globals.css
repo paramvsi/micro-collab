@@ -1,0 +1,499 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  :root {
+    /* ========================================
+       MicroCollab Brand Guidelines Design Tokens
+       Official v1.0 - Modern Gradient & Energy
+       ======================================== */
+
+    /* Primary Gradients */
+    --gradient-primary: linear-gradient(135deg, #6366F1, #EC4899, #F97316);
+    --gradient-accent: linear-gradient(135deg, #10B981, #3B82F6);
+
+    /* Background System */
+    --color-bg-dark: #0F1115; /* Charcoal Black - Hero sections */
+    --color-bg-section: #141517; /* Dark Neutral - Feature/Info sections */
+    --color-surface: #1E1E26; /* Graphite Gray - Cards & elevated surfaces */
+    --color-bg-light: #F9FAFB; /* Porcelain White - Light mode */
+
+    /* Text Colors */
+    --color-text-primary: #FFFFFF; /* White - Headlines & primary text */
+    --color-text-secondary: #9CA3AF; /* Steel Gray - Body text & descriptions */
+
+    /* Borders & Dividers */
+    --color-border: #27272A; /* Smoky Gray - Subtle borders */
+
+    /* Feedback Colors */
+    --color-success: #22C55E; /* Green - Success states */
+    --color-warning: #EAB308; /* Yellow - Warning states */
+    --color-error: #F43F5E; /* Red - Error states */
+    --color-info: #38BDF8; /* Sky Blue - Info states */
+
+    /* Design System Tokens */
+    --radius-base: 0.75rem; /* 12px - Base border radius */
+    --radius-lg: 1rem; /* 16px - Large border radius */
+    --radius-xl: 1.5rem; /* 24px - Extra large border radius */
+    --transition: all 0.3s ease-in-out; /* Standard transition */
+
+    /* Typography System */
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+    /* Light mode defaults */
+    --background: 249 250 251; /* #F9FAFB - Porcelain White */
+    --foreground: 17 24 39; /* #111827 - Black */
+    --surface: 255 255 255; /* White */
+    --border: 229 231 235; /* Light Gray */
+  }
+
+  .dark {
+    /* Dark mode (default theme) - Brand Guidelines */
+    --background: 15 17 21; /* #0F1115 - Charcoal Black */
+    --foreground: 255 255 255; /* #FFFFFF - White */
+    --surface: 30 30 38; /* #1E1E26 - Graphite Gray */
+    --border: 39 39 42; /* #27272A - Smoky Gray */
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--font-body);
+  }
+
+  /* Typography Hierarchy */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  p,
+  span,
+  li {
+    font-family: var(--font-body);
+    color: var(--color-text-secondary);
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+
+  /* Brand Utilities */
+
+  /* Gradient text - Primary gradient (Indigo → Pink → Orange) */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient text with luminous glow effect */
+  .gradient-text-glow {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 18px rgba(236, 72, 153, 0.4);
+  }
+
+  /* Gradient text - Accent gradient (Emerald → Sky Blue) */
+  .gradient-text-accent {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass morphism cards - Brand Guidelines */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-card-light {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  /* Background gradients as utility classes */
+
+  /* Option 1: Gradient Glow Black (Recommended - Modern & High-Energy) */
+  .bg-gradient-glow {
+    background: radial-gradient(circle at 30% 30%, #1a1b25, #0f1115 70%);
+  }
+
+  /* Option 2: Deep Space Gray (Minimal & Professional) */
+  .bg-deep-space {
+    background-color: #141517;
+  }
+
+  /* Option 3: Night Indigo Wash (Sophisticated with indigo tint) */
+  .bg-night-indigo {
+    background: linear-gradient(135deg, #181926, #0f1115);
+  }
+
+  /* Brand primary gradient (for buttons, text, etc) */
+  .bg-primary-gradient {
+    background: var(--gradient-primary);
+  }
+
+  /* Brand accent gradient */
+  .bg-accent-gradient {
+    background: var(--gradient-accent);
+  }
+
+  /* Glow effects for hover states */
+  .glow-primary {
+    box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+
+  /* Gradient overlay for depth and energy */
+  .gradient-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.1),
+      rgba(236, 72, 153, 0.08),
+      rgba(249, 115, 22, 0.06)
+    );
+  }
+
+  /* Glow effects for background ambience */
+  .glow-indigo {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.3);
+    filter: blur(120px);
+    -webkit-filter: blur(120px);
+  }
+
+  .glow-pink {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(236, 72, 153, 0.2);
+    filter: blur(120px);
+    -webkit-filter: blur(120px);
+  }
+
+  .glow-emerald {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.2);
+    filter: blur(120px);
+    -webkit-filter: blur(120px);
+  }
+
+  /* ========================================
+     Card System - Brand Guidelines
+     Modern cards with gradient glow effects
+     ======================================== */
+
+  .card {
+    background: var(--color-surface);
+    border-radius: var(--radius-base);
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+  }
+
+  .card:hover {
+    box-shadow: 0 0 18px rgba(236, 72, 153, 0.35);
+    transform: translateY(-2px);
+  }
+
+  .card-interactive {
+    background: var(--color-surface);
+    border-radius: var(--radius-base);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    cursor: pointer;
+  }
+
+  .card-interactive:hover {
+    border-color: rgba(236, 72, 153, 0.5);
+    box-shadow: 0 0 24px rgba(236, 72, 153, 0.3);
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  /* ========================================
+     Section System - Background Hierarchy
+     Smooth visual transitions across page
+     ======================================== */
+
+  section {
+    padding: 6rem 0;
+    transition: background-color 0.5s ease-in-out;
+  }
+
+  @media (max-width: 768px) {
+    section {
+      padding: 4rem 0;
+    }
+  }
+
+  /* Hero Section - Radial gradient with deep energy */
+  .section-hero {
+    background: radial-gradient(circle at 30% 30%, #181926, #0f1115 70%);
+    position: relative;
+  }
+
+  /* Feature/Info Sections - Dark neutral solid */
+  .section-dark {
+    background-color: var(--color-bg-section);
+  }
+
+  /* Highlight/CTA Sections - Subtle gradient overlay */
+  .section-highlight {
+    background-color: var(--color-bg-section);
+    position: relative;
+  }
+
+  .section-highlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.1),
+      rgba(236, 72, 153, 0.08),
+      rgba(249, 115, 22, 0.06)
+    );
+    pointer-events: none;
+  }
+
+  /* Alternating section backgrounds for visual rhythm */
+  .section-alt-1 {
+    background-color: #0f1115; /* Charcoal */
+  }
+
+  .section-alt-2 {
+    background-color: #141517; /* Dark Neutral */
+  }
+
+  .section-alt-3 {
+    background-color: #1e1e26; /* Graphite */
+  }
+
+  /* ========================================
+     Button System - Brand Guidelines
+     Primary, Secondary, Outline variants
+     ======================================== */
+
+  .btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: var(--radius-base);
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 24px rgba(236, 72, 153, 0.5);
+  }
+
+  .btn-secondary {
+    background: var(--gradient-accent);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: var(--radius-base);
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 0.75rem 2rem;
+    border-radius: var(--radius-base);
+    font-weight: 600;
+    transition: var(--transition);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+  }
+
+  .btn-outline:hover {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+  }
+
+  /* ========================================
+     Utility Classes - Spacing & Layout
+     ======================================== */
+
+  .container-narrow {
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .container-wide {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus visible for accessibility */
+  *:focus-visible {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
+  }
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
