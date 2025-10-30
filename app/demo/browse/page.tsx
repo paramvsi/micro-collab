@@ -79,51 +79,51 @@ export default function BrowsePage() {
 
       {/* Content - relative positioning */}
       <div className="relative">
-        {/* Header with gradient text */}
+        {/* Header with gradient text - responsive */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 md:mb-8"
         >
-          <h1 className="mb-3 font-display text-4xl font-bold md:text-5xl">
+          <h1 className="mb-3 font-display text-3xl font-bold sm:text-4xl md:text-5xl">
             <span className="gradient-text">Browse</span>{" "}
             <span className="text-white">Requests</span>
           </h1>
-          <p className="flex items-center gap-2 text-lg text-steel">
-            <Search className="h-5 w-5 text-brand-sky" />
-            Find opportunities to help others and earn rewards
+          <p className="flex items-center gap-2 text-base sm:text-lg text-steel">
+            <Search className="h-4 w-4 sm:h-5 sm:w-5 text-brand-sky" />
+            <span className="line-clamp-2 sm:line-clamp-none">Find opportunities to help others and earn rewards</span>
           </p>
 
-          {/* Live indicator */}
+          {/* Live indicator - responsive */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-4 inline-flex items-center gap-2 rounded-full bg-brand-emerald/20 px-4 py-2"
+            className="mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-brand-emerald/20 px-3 sm:px-4 py-1.5 sm:py-2"
           >
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-emerald opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-emerald" />
             </span>
-            <span className="text-sm font-medium text-brand-emerald">
+            <span className="text-xs sm:text-sm font-medium text-brand-emerald">
               {requests.length} active requests
             </span>
-            <Sparkles className="h-4 w-4 text-brand-emerald" />
+            <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-brand-emerald" />
           </motion.div>
         </motion.div>
 
-        <div className="gap-6 lg:grid lg:grid-cols-[280px_1fr]">
-          {/* Filters Sidebar */}
-          <aside className="mb-6 lg:sticky lg:top-24 lg:mb-0 lg:h-fit">
+        <div className="gap-4 md:gap-6 lg:grid lg:grid-cols-[280px_1fr]">
+          {/* Filters Sidebar - hidden on mobile, visible on lg+ */}
+          <aside className="hidden lg:block lg:sticky lg:top-24 lg:h-fit">
             <RequestFilters />
           </aside>
 
-          {/* Request Cards Grid with staggered animation */}
+          {/* Request Cards Grid with staggered animation - responsive */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="relative grid gap-6 sm:grid-cols-2 xl:grid-cols-2 scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-[#1E1E26] scrollbar-thumb-rounded"
+            className="relative grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-[#1E1E26] scrollbar-thumb-rounded"
           >
             <AnimatePresence mode="popLayout">
               {requests.map((request, index) => (

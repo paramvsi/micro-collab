@@ -43,40 +43,41 @@ export function RequestCard({ request }: { request: DemoRequest }) {
           variant="interactive"
           className="h-full bg-surface border border-white/5 rounded-xl transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(236,72,153,0.25)] hover:-translate-y-[3px]"
         >
-          <CardHeader>
-            {/* Urgency Badge & Timestamp */}
+          <CardHeader className="p-4 sm:p-6">
+            {/* Urgency Badge & Timestamp - responsive */}
             <div className="mb-3 flex items-start justify-between gap-2">
               <Badge
                 variant="outline"
                 className={cn(
-                  "gap-1.5 px-3 py-1.5 font-semibold",
+                  "gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-semibold",
                   config.bg,
                   config.color,
                   config.border
                 )}
               >
-                {UrgencyIcon && <UrgencyIcon className="h-3.5 w-3.5" />}
-                {request.urgency.toUpperCase()}
+                {UrgencyIcon && <UrgencyIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5" />}
+                <span className="hidden sm:inline">{request.urgency.toUpperCase()}</span>
+                <span className="sm:hidden">{request.urgency.charAt(0).toUpperCase() + request.urgency.slice(1)}</span>
               </Badge>
-              <span className="text-xs text-steel">
+              <span className="text-xs text-steel whitespace-nowrap">
                 {formatDistanceToNow(request.createdAt, { addSuffix: true })}
               </span>
             </div>
 
-            {/* Title */}
-            <CardTitle className="mb-2 text-xl group-hover:text-brand-pink transition-colors">
+            {/* Title - responsive */}
+            <CardTitle className="mb-2 text-lg sm:text-xl group-hover:text-brand-pink transition-colors leading-snug">
               {request.title}
             </CardTitle>
 
-            {/* Description */}
-            <CardDescription className="line-clamp-2 text-base leading-relaxed">
+            {/* Description - responsive */}
+            <CardDescription className="line-clamp-2 text-sm sm:text-base leading-relaxed">
               {request.description}
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-4">
-            {/* Tags with varied colors */}
-            <div className="flex flex-wrap gap-2">
+          <CardContent className="space-y-3 sm:space-y-4 p-4 sm:p-6 pt-0">
+            {/* Tags with varied colors - responsive */}
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {request.tags.map((tag, index) => {
                 // Color-coded tags matching RequestFilters
                 const tagColors: Record<string, { bg: string; text: string; border: string }> = {
@@ -108,7 +109,7 @@ export function RequestCard({ request }: { request: DemoRequest }) {
                     key={tag}
                     variant="secondary"
                     className={cn(
-                      "border transition-all hover:scale-105",
+                      "border transition-all hover:scale-105 text-xs sm:text-sm px-2 sm:px-2.5 py-0.5 sm:py-1",
                       colors.bg,
                       colors.text,
                       colors.border
@@ -120,41 +121,41 @@ export function RequestCard({ request }: { request: DemoRequest }) {
               })}
             </div>
 
-            {/* Color-coded interactive metrics */}
-            <div className="flex flex-wrap gap-4 text-sm mt-3">
-              <span className="text-sky-400 font-medium flex items-center gap-1.5">
+            {/* Color-coded interactive metrics - responsive */}
+            <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm mt-2 sm:mt-3">
+              <span className="text-sky-400 font-medium flex items-center gap-1 sm:gap-1.5">
                 ● {request.duration}h
               </span>
               <span className={cn(
-                "font-medium flex items-center gap-1.5",
+                "font-medium flex items-center gap-1 sm:gap-1.5",
                 request.mode === "async" ? "text-emerald-400" : "text-pink-400"
               )}>
                 ● {request.mode === "async" ? "Async" : "Live"}
               </span>
               {request.budget && (
-                <span className="text-amber-300 font-medium flex items-center gap-1.5">
+                <span className="text-amber-300 font-medium flex items-center gap-1 sm:gap-1.5">
                   ● ${request.budget.amount}
                 </span>
               )}
               {request.offers.length > 0 && (
-                <span className="text-orange-400 font-medium flex items-center gap-1.5">
+                <span className="text-orange-400 font-medium flex items-center gap-1 sm:gap-1.5">
                   ● {request.offers.length} {request.offers.length === 1 ? "offer" : "offers"}
                 </span>
               )}
             </div>
           </CardContent>
 
-          <CardFooter>
+          <CardFooter className="p-4 sm:p-6 pt-0">
             <Button
               variant="gradient-accent"
               size="lg"
-              className="w-full"
+              className="w-full h-11 sm:h-12 text-sm sm:text-base"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsOfferModalOpen(true);
               }}
             >
-              <Users className="h-4 w-4" />
+              <Users className="h-4 w-4 sm:h-5 sm:w-5" />
               Offer Help
             </Button>
           </CardFooter>

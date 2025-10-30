@@ -111,10 +111,10 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
             )}
           />
 
-          {/* Card Content */}
-          <div className="relative rounded-lg border border-smoky bg-graphite/90 p-6 backdrop-blur-xl transition-all duration-300 group-hover:border-transparent">
-            {/* Icon with animated background */}
-            <div className="mb-4 flex items-start justify-between">
+          {/* Card Content - responsive */}
+          <div className="relative rounded-lg border border-smoky bg-graphite/90 p-4 sm:p-6 backdrop-blur-xl transition-all duration-300 group-hover:border-transparent">
+            {/* Icon with animated background - responsive */}
+            <div className="mb-3 sm:mb-4 flex items-start justify-between">
               <motion.div
                 whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
                 transition={{ duration: 0.5 }}
@@ -135,23 +135,23 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
                 <div className="text-white">{stat.icon}</div>
               </motion.div>
 
-              {/* Trend Indicator with glow */}
+              {/* Trend Indicator with glow - responsive */}
               {stat.trend && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 + 0.3 }}
-                  className="flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-1 ring-1 ring-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.4)]"
+                  className="flex items-center gap-0.5 sm:gap-1 rounded-full bg-emerald-500/20 px-1.5 sm:px-2 py-0.5 sm:py-1 ring-1 ring-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.4)]"
                 >
-                  <TrendingUp className="h-3 w-3 text-emerald-400" />
-                  <span className="text-emerald-400/90 font-medium text-sm">
+                  <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-emerald-400" />
+                  <span className="text-emerald-400/90 font-medium text-xs sm:text-sm">
                     +{stat.trend}%
                   </span>
                 </motion.div>
               )}
             </div>
 
-            {/* Value */}
+            {/* Value - responsive */}
             <motion.div
               key={stat.value}
               initial={{ scale: 1.5, opacity: 0 }}
@@ -163,7 +163,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
                 delay: index * 0.1 + 0.2,
               }}
               className={cn(
-                "mb-1 font-display text-5xl font-bold",
+                "mb-1 font-display text-3xl sm:text-4xl lg:text-5xl font-bold",
                 "bg-gradient-to-br bg-clip-text text-transparent",
                 stat.color === "indigo" && "from-indigo-400 to-purple-400",
                 stat.color === "emerald" && "from-emerald-400 to-teal-400",
@@ -175,12 +175,12 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
               {stat.value}
             </motion.div>
 
-            {/* Label */}
-            <div className="mb-1 text-sm font-medium text-white">
+            {/* Label - responsive */}
+            <div className="mb-1 text-xs sm:text-sm font-medium text-white">
               {stat.label}
             </div>
 
-            {/* Subtext */}
+            {/* Subtext - responsive */}
             {stat.subtext && (
               <div className="text-xs text-steel">{stat.subtext}</div>
             )}

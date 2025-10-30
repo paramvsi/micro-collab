@@ -40,58 +40,59 @@ export default function DashboardPage() {
 
       {/* Content - relative z-10 to be above glows */}
       <div className="relative z-10">
-        {/* Header with gradient text */}
+        {/* Header with gradient text - responsive */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 md:mb-8"
         >
-          <h1 className="mb-3 font-display text-4xl font-bold md:text-5xl">
+          <h1 className="mb-3 font-display text-3xl font-bold sm:text-4xl md:text-5xl">
             <span className="gradient-text">Marketplace</span>{" "}
             <span className="text-white">Dashboard</span>
           </h1>
-          <p className="flex items-center gap-2 text-lg text-steel">
-            <Sparkles className="h-5 w-5 text-brand-emerald" />
-            Real-time overview of the MicroCollab marketplace
+          <p className="flex items-center gap-2 text-base sm:text-lg text-steel">
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-brand-emerald" />
+            <span className="line-clamp-1 sm:line-clamp-none">Real-time overview of the MicroCollab marketplace</span>
           </p>
         </motion.div>
 
-        {/* Stats Section */}
+        {/* Stats Section - responsive spacing */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mb-12"
+          className="mb-8 md:mb-12"
         >
           <DashboardStats stats={stats} />
         </motion.div>
 
-        {/* Activity Stream Section */}
+        {/* Activity Stream Section - responsive spacing */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="mb-12"
+          className="mb-8 md:mb-12"
         >
           <ActivityStream events={recentEvents} maxHeight={500} />
         </motion.div>
 
-        {/* CTA Section */}
+        {/* CTA Section - responsive button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="flex justify-center"
+          className="flex justify-center px-4"
         >
-          <Button variant="gradient-accent" size="xl" asChild>
+          <Button variant="gradient-accent" size="xl" asChild className="w-full sm:w-auto">
             <motion.a
               href="/demo/browse"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group"
             >
-              Browse Active Requests
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              <span className="hidden sm:inline">Browse Active Requests</span>
+              <span className="sm:hidden">Browse Requests</span>
+              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
             </motion.a>
           </Button>
         </motion.div>

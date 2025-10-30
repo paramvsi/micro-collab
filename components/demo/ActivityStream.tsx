@@ -84,9 +84,9 @@ export function ActivityStream({
 
   return (
     <Card variant="surface" className="card-enhanced">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      <CardHeader className="p-4 sm:p-6">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
             <motion.div
               animate={{
                 scale: [1, 1.2, 1],
@@ -97,17 +97,17 @@ export function ActivityStream({
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 p-2 shadow-lg"
+              className="rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 p-1.5 sm:p-2 shadow-lg"
             >
-              <Activity className="h-5 w-5 text-white" />
+              <Activity className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
             </motion.div>
-            <CardTitle className="text-2xl">
+            <CardTitle className="text-lg sm:text-xl lg:text-2xl">
               <span className="gradient-text">Live</span>{" "}
               <span className="text-white">Activity</span>
             </CardTitle>
           </div>
 
-          {/* Realtime Pulse Indicator */}
+          {/* Realtime Pulse Indicator - responsive */}
           <motion.div
             animate={{
               opacity: [0.5, 1, 0.5],
@@ -117,23 +117,23 @@ export function ActivityStream({
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1.5 ring-1 ring-emerald-500/30"
+            className="flex items-center gap-1 sm:gap-2 rounded-full bg-emerald-500/20 px-2 sm:px-3 py-1 sm:py-1.5 ring-1 ring-emerald-500/30"
           >
-            <span className="relative flex h-3 w-3">
+            <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
               <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-emerald-500"></span>
             </span>
-            <span className="text-sm font-medium text-emerald-400">Live</span>
+            <span className="text-xs sm:text-sm font-medium text-emerald-400">Live</span>
           </motion.div>
         </div>
       </CardHeader>
 
-      <CardContent>
-        {/* Activity Feed with radial depth and scroll styling */}
+      <CardContent className="p-4 sm:p-6 pt-0">
+        {/* Activity Feed with radial depth and scroll styling - responsive */}
         <div className="relative">
           <div
             ref={containerRef}
-            className="space-y-3 overflow-y-auto pr-2 bg-surface/60 rounded-xl p-4 scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-transparent"
+            className="space-y-2 sm:space-y-3 overflow-y-auto pr-1 sm:pr-2 bg-surface/60 rounded-xl p-3 sm:p-4 scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-transparent"
             style={{ maxHeight: `${maxHeight}px` }}
           >
           <AnimatePresence mode="popLayout">
@@ -181,16 +181,16 @@ export function ActivityStream({
                     )}
                   />
 
-                  {/* Event Card */}
+                  {/* Event Card - responsive */}
                   <div
                     className={cn(
-                      "relative rounded-lg border-l-4 bg-graphite/50 p-4 backdrop-blur-sm transition-all duration-300",
+                      "relative rounded-lg border-l-4 bg-graphite/50 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300",
                       config.borderColor,
                       "border-y border-r border-smoky hover:bg-graphite/70"
                     )}
                   >
-                    <div className="flex items-start gap-4">
-                      {/* Icon with Gradient Background and Glow Ring */}
+                    <div className="flex items-start gap-2 sm:gap-4">
+                      {/* Icon with Gradient Background and Glow Ring - responsive */}
                       <motion.div
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
@@ -203,7 +203,7 @@ export function ActivityStream({
                           scale: 1.1,
                         }}
                         className={cn(
-                          "flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br shadow-lg ring-2 animate-pulse",
+                          "flex h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br shadow-lg ring-2 animate-pulse",
                           config.bgGradient,
                           config.color === "emerald" && "ring-emerald-500/40",
                           config.color === "pink" && "ring-pink-500/40",
@@ -212,17 +212,17 @@ export function ActivityStream({
                           config.color === "sky" && "ring-sky-500/40"
                         )}
                       >
-                        <Icon className="h-6 w-6 text-white" />
+                        <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                       </motion.div>
 
-                      {/* Content */}
-                      <div className="flex-1 space-y-2">
+                      {/* Content - responsive */}
+                      <div className="flex-1 space-y-1.5 sm:space-y-2 min-w-0">
                         {/* Message */}
                         <motion.p
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.03 + 0.15 }}
-                          className="font-medium leading-relaxed text-white"
+                          className="text-sm sm:text-base font-medium leading-relaxed text-white"
                         >
                           {event.message}
                         </motion.p>
@@ -237,7 +237,7 @@ export function ActivityStream({
                             <Link
                               href={`/demo/requests/${event.data.request.id}`}
                               className={cn(
-                                "inline-flex items-center gap-1 text-sm font-medium transition-colors",
+                                "inline-flex items-center gap-1 text-xs sm:text-sm font-medium transition-colors",
                                 config.color === "indigo" &&
                                   "text-indigo-400 hover:text-indigo-300",
                                 config.color === "emerald" &&
@@ -250,7 +250,8 @@ export function ActivityStream({
                                   "text-sky-400 hover:text-sky-300"
                               )}
                             >
-                              View request →
+                              <span className="hidden sm:inline">View request →</span>
+                              <span className="sm:hidden">View →</span>
                             </Link>
                           </motion.div>
                         )}
@@ -260,7 +261,7 @@ export function ActivityStream({
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: index * 0.03 + 0.25 }}
-                          className="flex items-center gap-2 text-xs text-steel"
+                          className="flex items-center gap-1.5 sm:gap-2 text-xs text-steel"
                         >
                           <span className="inline-block h-1 w-1 rounded-full bg-steel" />
                           {formatDistanceToNow(event.timestamp, {
