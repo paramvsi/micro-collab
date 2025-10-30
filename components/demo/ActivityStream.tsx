@@ -107,7 +107,7 @@ export function ActivityStream({
             </CardTitle>
           </div>
 
-          {/* Live Indicator */}
+          {/* Realtime Pulse Indicator */}
           <motion.div
             animate={{
               opacity: [0.5, 1, 0.5],
@@ -117,11 +117,11 @@ export function ActivityStream({
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1.5"
+            className="flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1.5 ring-1 ring-emerald-500/30"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            <span className="relative flex h-3 w-3">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
             <span className="text-sm font-medium text-emerald-400">Live</span>
           </motion.div>
@@ -129,12 +129,13 @@ export function ActivityStream({
       </CardHeader>
 
       <CardContent>
-        {/* Activity Feed */}
-        <div
-          ref={containerRef}
-          className="space-y-3 overflow-y-auto pr-2"
-          style={{ maxHeight: `${maxHeight}px` }}
-        >
+        {/* Activity Feed with radial depth and scroll styling */}
+        <div className="relative">
+          <div
+            ref={containerRef}
+            className="space-y-3 overflow-y-auto pr-2 bg-surface/60 rounded-xl p-4 scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-transparent"
+            style={{ maxHeight: `${maxHeight}px` }}
+          >
           <AnimatePresence mode="popLayout">
             {events.map((event, index) => {
               const config = getEventConfig(event.type);
@@ -189,7 +190,7 @@ export function ActivityStream({
                     )}
                   >
                     <div className="flex items-start gap-4">
-                      {/* Icon with Gradient Background */}
+                      {/* Icon with Gradient Background and Glow Ring */}
                       <motion.div
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
@@ -202,8 +203,13 @@ export function ActivityStream({
                           scale: 1.1,
                         }}
                         className={cn(
-                          "flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg",
-                          config.bgGradient
+                          "flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br shadow-lg ring-2 animate-pulse",
+                          config.bgGradient,
+                          config.color === "emerald" && "ring-emerald-500/40",
+                          config.color === "pink" && "ring-pink-500/40",
+                          config.color === "indigo" && "ring-indigo-500/40",
+                          config.color === "orange" && "ring-orange-500/40",
+                          config.color === "sky" && "ring-sky-500/40"
                         )}
                       >
                         <Icon className="h-6 w-6 text-white" />
@@ -286,6 +292,10 @@ export function ActivityStream({
               </p>
             </motion.div>
           )}
+          </div>
+
+          {/* Fade-out gradient at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-b from-transparent to-[#0F1115] pointer-events-none rounded-b-xl" />
         </div>
       </CardContent>
     </Card>

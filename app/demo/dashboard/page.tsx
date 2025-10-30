@@ -18,7 +18,7 @@ export default function DashboardPage() {
   }, [loadInitialData, startSimulation]);
 
   return (
-    <main className="section-radial-focus relative mx-auto max-w-7xl overflow-hidden px-4 py-8">
+    <main className="relative min-h-screen bg-[radial-gradient(circle_at_50%_20%,_rgba(99,102,241,0.06),_transparent_80%)] mx-auto max-w-7xl overflow-hidden px-4 py-8">
       {/* Background Accent Glows - matching landing page */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}

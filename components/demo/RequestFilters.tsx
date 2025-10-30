@@ -53,7 +53,7 @@ export function RequestFilters() {
   const { filters, updateFilters } = useDemoStore();
 
   return (
-    <Card variant="surface" className="relative overflow-hidden p-6">
+    <Card variant="surface" className="relative overflow-hidden p-6 border-l-2 border-l-indigo-500/30 bg-surface/50 rounded-xl">
       {/* Background gradient glow */}
       <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-brand-indigo/10 blur-3xl" />
       <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-brand-emerald/10 blur-3xl" />

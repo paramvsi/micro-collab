@@ -34,14 +34,14 @@ export function RequestCard({ request }: { request: DemoRequest }) {
     <>
       {/* Match CategoryHighlights pattern */}
       <motion.div
-        whileHover={{ scale: 1.02, y: -6 }}
+        whileHover={{ scale: 1.02, y: -3 }}
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
         className="group relative h-full"
       >
         <Card
           variant="interactive"
-          className="card-hover-ring card-enhanced h-full"
+          className="h-full bg-surface border border-white/5 rounded-xl transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(236,72,153,0.25)] hover:-translate-y-[3px]"
         >
           <CardHeader>
             {/* Urgency Badge & Timestamp */}
@@ -120,26 +120,25 @@ export function RequestCard({ request }: { request: DemoRequest }) {
               })}
             </div>
 
-            {/* Meta Info with colored icons */}
-            <div className="flex flex-wrap gap-3 text-sm">
-              <span className="flex items-center gap-1.5 text-steel">
-                <Clock className="h-4 w-4 text-brand-sky" />
-                <span>{request.duration}h</span>
+            {/* Color-coded interactive metrics */}
+            <div className="flex flex-wrap gap-4 text-sm mt-3">
+              <span className="text-sky-400 font-medium flex items-center gap-1.5">
+                ● {request.duration}h
               </span>
-              <span className="flex items-center gap-1.5 text-steel">
-                <MessageSquare className="h-4 w-4 text-brand-pink" />
-                <span>{request.mode === "async" ? "Async" : "Live"}</span>
+              <span className={cn(
+                "font-medium flex items-center gap-1.5",
+                request.mode === "async" ? "text-emerald-400" : "text-pink-400"
+              )}>
+                ● {request.mode === "async" ? "Async" : "Live"}
               </span>
               {request.budget && (
-                <span className="flex items-center gap-1.5 text-brand-emerald">
-                  <DollarSign className="h-4 w-4" />
-                  <span>${request.budget.amount}</span>
+                <span className="text-amber-300 font-medium flex items-center gap-1.5">
+                  ● ${request.budget.amount}
                 </span>
               )}
               {request.offers.length > 0 && (
-                <span className="flex items-center gap-1.5 text-brand-orange">
-                  <Users className="h-4 w-4" />
-                  <span>{request.offers.length} {request.offers.length === 1 ? "offer" : "offers"}</span>
+                <span className="text-orange-400 font-medium flex items-center gap-1.5">
+                  ● {request.offers.length} {request.offers.length === 1 ? "offer" : "offers"}
                 </span>
               )}
             </div>

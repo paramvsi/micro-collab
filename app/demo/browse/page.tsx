@@ -55,7 +55,7 @@ export default function BrowsePage() {
   }, [loadInitialData, startSimulation]);
 
   return (
-    <main className="section-radial-focus relative mx-auto max-w-7xl px-4 py-8">
+    <main className="relative min-h-screen bg-[radial-gradient(circle_at_60%_40%,_rgba(99,102,241,0.05),_transparent_80%)] mx-auto max-w-7xl px-4 py-8">
       {/* Background Accent Glows - matching landing page */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
@@ -123,7 +123,7 @@ export default function BrowsePage() {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="grid gap-6 sm:grid-cols-2 xl:grid-cols-2"
+            className="relative grid gap-6 sm:grid-cols-2 xl:grid-cols-2 scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-[#1E1E26] scrollbar-thumb-rounded"
           >
             <AnimatePresence mode="popLayout">
               {requests.map((request, index) => (
@@ -168,6 +168,9 @@ export default function BrowsePage() {
           </motion.div>
         </div>
       </div>
+
+      {/* Fade-out gradient at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-[#0F1115]/95 pointer-events-none" />
     </main>
   );
 }

@@ -20,7 +20,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
     {
       label: "Active Requests",
       value: stats.activeRequests,
-      icon: <FileText className="h-10 w-10" />,
+      icon: <FileText className="h-5 w-5" />,
       color: "indigo",
       gradient: "from-indigo-500/20 via-purple-500/20 to-pink-500/20",
       subtext: "Ready to help",
@@ -29,7 +29,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
     {
       label: "Helpers Online",
       value: stats.availableHelpers,
-      icon: <Users className="h-10 w-10" />,
+      icon: <Users className="h-5 w-5" />,
       color: "emerald",
       gradient: "from-emerald-500/20 via-teal-500/20 to-cyan-500/20",
       subtext: "Available now",
@@ -38,7 +38,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
     {
       label: "Live Sessions",
       value: stats.activeSessions,
-      icon: <Video className="h-10 w-10" />,
+      icon: <Video className="h-5 w-5" />,
       color: "pink",
       gradient: "from-pink-500/20 via-rose-500/20 to-red-500/20",
       subtext: "In progress",
@@ -46,7 +46,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
     {
       label: "Completed Today",
       value: stats.completedSessions,
-      icon: <Zap className="h-10 w-10" />,
+      icon: <Zap className="h-5 w-5" />,
       color: "orange",
       gradient: "from-orange-500/20 via-amber-500/20 to-yellow-500/20",
       subtext: "Success rate 98%",
@@ -55,7 +55,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
     {
       label: "Total Offers",
       value: stats.totalOffers,
-      icon: <TrendingUp className="h-10 w-10" />,
+      icon: <TrendingUp className="h-5 w-5" />,
       color: "sky",
       gradient: "from-sky-500/20 via-blue-500/20 to-indigo-500/20",
       subtext: "Growing",
@@ -64,7 +64,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
     {
       label: "Avg Response",
       value: 8,
-      icon: <Clock className="h-10 w-10" />,
+      icon: <Clock className="h-5 w-5" />,
       color: "indigo",
       gradient: "from-violet-500/20 via-purple-500/20 to-fuchsia-500/20",
       subtext: "minutes",
@@ -72,7 +72,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
   ];
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
       {statCards.map((stat, index) => (
         <motion.div
           key={stat.label}
@@ -119,7 +119,7 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
                 whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
                 transition={{ duration: 0.5 }}
                 className={cn(
-                  "rounded-xl p-3 shadow-lg",
+                  "rounded-lg p-2 shadow-lg",
                   stat.color === "indigo" &&
                     "bg-gradient-to-br from-indigo-500 to-purple-600",
                   stat.color === "emerald" &&
@@ -135,16 +135,16 @@ export function DashboardStats({ stats }: { stats: DemoStats }) {
                 <div className="text-white">{stat.icon}</div>
               </motion.div>
 
-              {/* Trend Indicator */}
+              {/* Trend Indicator with glow */}
               {stat.trend && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 + 0.3 }}
-                  className="flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-1"
+                  className="flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-1 ring-1 ring-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.4)]"
                 >
                   <TrendingUp className="h-3 w-3 text-emerald-400" />
-                  <span className="text-xs font-semibold text-emerald-400">
+                  <span className="text-emerald-400/90 font-medium text-sm">
                     +{stat.trend}%
                   </span>
                 </motion.div>
