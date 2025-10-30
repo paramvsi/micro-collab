@@ -117,15 +117,47 @@ npm run type-check
 npm run lint
 ```
 
+## 🎮 Demo Mode
+
+MicroCollab features a fully functional demo marketplace that showcases the platform without requiring authentication. Perfect for exploring features and understanding the workflow.
+
+### Features
+- **Live Simulation** - Auto-generated marketplace activity every 45 seconds
+- **Interactive Browsing** - Filter requests by skills, urgency, and duration
+- **Mock Offers** - Submit demo offers and see real-time updates
+- **Activity Feed** - Watch the marketplace come alive with real-time events
+- **Realistic Data** - 10-15 pre-populated requests with professional templates
+
+### Access Demo Mode
+
+**From Landing Page**: Click the **"Try Demo →"** button on the hero section
+
+**Direct URLs**:
+```
+/demo/dashboard - Overview with stats and live activity
+/demo/browse - Browse and filter help requests
+/demo/requests/[id] - View request details and offers
+```
+
+📖 **[Complete Demo Guide](./DEMO_QUICKSTART.md)** - Detailed walkthrough of all features
+
+### Technical Implementation
+- **Mock Data**: Faker.js for realistic data generation
+- **State Management**: Zustand store with auto-simulation
+- **Animations**: Framer Motion for smooth transitions
+- **Type-Safe**: Full TypeScript coverage with strict mode
+- **Zero Custom CSS**: 100% Tailwind utility classes
+
 ## 📚 Documentation
 
 - [Development Plan](./MicroCollabPlan.md) - Comprehensive phase-by-phase plan
 - [Product Spec](./microcollab_product_spec_v_1.md) - Product requirements
+- [Demo Mode Implementation](./DEMO_MODE_IMPL.md) - Complete demo mode specification
 
 ## 🗺️ Roadmap
 
 - [x] **Phase 1A** - Project initialization and setup
-- [ ] **Phase 1B** - Landing page and demo mode
+- [x] **Phase 1B** - Landing page and demo mode ✨
 - [ ] **Phase 1C** - Core marketplace features
 - [ ] **Phase 1D** - Session collaboration room
 - [ ] **Phase 2** - Real-time integration

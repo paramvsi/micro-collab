@@ -29,6 +29,17 @@ const config: Config = {
         warning: "#EAB308",
         error: "#F43F5E",
         info: "#38BDF8",
+        // Demo-specific colors
+        demo: {
+          "banner-bg": "rgba(99, 102, 241, 0.05)",
+          "card-hover": "rgba(236, 72, 153, 0.1)",
+        },
+        // Urgency color scale
+        urgency: {
+          low: "#9CA3AF", // Gray
+          normal: "#EAB308", // Amber
+          critical: "#F43F5E", // Coral
+        },
         // Keep standard Tailwind scale for compatibility
         indigo: {
           50: "#EEF2FF",
@@ -73,8 +84,17 @@ const config: Config = {
         mono: ["IBM Plex Mono", "monospace"], // Brand: Code/technical
       },
       backgroundImage: {
-        "gradient-primary": "linear-gradient(135deg, #6366F1, #EC4899, #F97316)",
+        "gradient-primary":
+          "linear-gradient(135deg, #6366F1, #EC4899, #F97316)",
         "gradient-accent": "linear-gradient(135deg, #10B981, #3B82F6)",
+        "gradient-card":
+          "linear-gradient(135deg, rgba(99,102,241,0.05), rgba(236,72,153,0.05))",
+      },
+      boxShadow: {
+        "glow-indigo": "0 0 24px rgba(99, 102, 241, 0.3)",
+        "glow-pink": "0 0 24px rgba(236, 72, 153, 0.3)",
+        "glow-emerald": "0 0 24px rgba(16, 185, 129, 0.3)",
+        "card-hover": "0 8px 32px rgba(99, 102, 241, 0.15)",
       },
       borderRadius: {
         base: "0.75rem", // Brand: --radius-base
@@ -83,6 +103,8 @@ const config: Config = {
         "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "slide-in": "slideIn 0.3s ease-out",
         "fade-in": "fadeIn 0.2s ease-in",
+        "slide-up": "slideUp 0.3s ease-out",
+        "scale-in": "scaleIn 0.2s ease-out",
       },
       keyframes: {
         slideIn: {
@@ -92,6 +114,14 @@ const config: Config = {
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        slideUp: {
+          "0%": { transform: "translateY(20px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        scaleIn: {
+          "0%": { transform: "scale(0.95)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
         },
       },
     },

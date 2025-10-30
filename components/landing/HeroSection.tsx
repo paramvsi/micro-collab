@@ -92,7 +92,7 @@ export function HeroSection() {
         >
           <Button variant="gradient" size="lg" asChild>
             <motion.a
-              href="/find-help"
+              href="/demo/dashboard"
               whileHover={
                 !shouldReduceMotion
                   ? {
@@ -104,13 +104,13 @@ export function HeroSection() {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
             >
-              Find Help Now
+              Try Demo →
             </motion.a>
           </Button>
 
           <Button variant="outline" size="lg" asChild>
             <motion.a
-              href="/offer-help"
+              href="/demo/browse"
               whileHover={
                 !shouldReduceMotion
                   ? {
@@ -123,10 +123,18 @@ export function HeroSection() {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
             >
-              Offer Help
+              Browse Requests
             </motion.a>
           </Button>
         </motion.div>
+
+        {/* Demo Indicator */}
+        <motion.p
+          variants={staggerItem}
+          className="mt-4 text-sm text-steel"
+        >
+          🎮 No signup required • Explore with live demo data
+        </motion.p>
 
         {/* Trust Indicators */}
         <motion.div

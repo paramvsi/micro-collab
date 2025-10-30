@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -44,6 +45,17 @@ export default function RootLayout({
         className={`${plusJakartaSans.variable} ${inter.variable} ${ibmPlexMono.variable} font-sans antialiased`}
       >
         {children}
+        <Toaster
+          theme="dark"
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: "#1E1E26",
+              border: "1px solid #27272A",
+              color: "#F9FAFB",
+            },
+          }}
+        />
       </body>
     </html>
   );
