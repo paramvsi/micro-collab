@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "sonner";
+import { QueryProvider } from "./providers/query-provider";
 import "./globals.css";
+import "@/lib/mock/init"; // Initialize mock data
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -44,18 +46,20 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${inter.variable} ${ibmPlexMono.variable} font-sans antialiased`}
       >
-        {children}
-        <Toaster
-          theme="dark"
-          position="top-right"
-          toastOptions={{
-            style: {
-              background: "#1E1E26",
-              border: "1px solid #27272A",
-              color: "#F9FAFB",
-            },
-          }}
-        />
+        <QueryProvider>
+          {children}
+          <Toaster
+            theme="dark"
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: "#1E1E26",
+                border: "1px solid #27272A",
+                color: "#F9FAFB",
+              },
+            }}
+          />
+        </QueryProvider>
       </body>
     </html>
   );
