@@ -34,8 +34,10 @@ A marketplace platform connecting developers and small teams with experienced pe
 |-------|------------|
 | **Frontend** | Next.js 16, React 19, TypeScript 5 |
 | **Styling** | Tailwind CSS v4, shadcn/ui, Radix UI |
-| **State** | Zustand, React Hook Form + Zod |
-| **Backend** | Supabase (Auth + PostgreSQL + Realtime) |
+| **State** | Zustand (persist), Tanstack Query |
+| **Forms** | React Hook Form + Zod |
+| **Mock Data** | @faker-js/faker, localStorage |
+| **Backend** | Supabase (Auth + PostgreSQL + Realtime) - *Future* |
 | **Animations** | Framer Motion |
 | **Icons** | Lucide React |
 | **Testing** | Vitest, Playwright, Testing Library |
@@ -86,20 +88,31 @@ microcollab/
 │   ├── (marketing)/        # Landing page
 │   ├── (dashboard)/        # Protected routes
 │   ├── demo/               # Public demo mode
-│   └── api/                # API routes
+│   └── api/                # API routes (future)
 ├── components/
 │   ├── ui/                 # shadcn/ui components
 │   ├── features/           # Feature-specific components
 │   └── layout/             # Shared layouts
 ├── lib/
-│   ├── api/                # Data providers (mock + Supabase)
-│   ├── services/           # Business logic layer
-│   ├── hooks/              # Custom React hooks
-│   ├── stores/             # Zustand stores
+│   ├── mock/               # Mock data layer (Phase 1-3)
+│   │   ├── data/           # Seed data + generators (@faker-js/faker)
+│   │   ├── services/       # Mock services (localStorage CRUD)
+│   │   └── utils/          # Storage wrapper + delay simulation
+│   ├── services/           # Service interfaces + selectors
+│   ├── hooks/
+│   │   ├── queries/        # Tanstack Query hooks
+│   │   └── auth/           # Auth hooks
+│   ├── stores/             # Zustand stores (persist middleware)
 │   └── utils/              # Utility functions
 ├── types/                  # TypeScript type definitions
 └── config/                 # App configuration
 ```
+
+**Key Architecture Points:**
+- Components **never** access services directly → Always use Tanstack Query hooks
+- Services follow **interface contracts** → Enables seamless mock↔real swapping
+- All state persists via **Zustand + localStorage** → Survives page refreshes
+- Mock services simulate **100-300ms delays** → Realistic loading states
 
 ## 🧪 Testing
 
@@ -150,9 +163,22 @@ MicroCollab features a fully functional demo marketplace that showcases the plat
 
 ## 📚 Documentation
 
-- [Development Plan](./MicroCollabPlan.md) - Comprehensive phase-by-phase plan
+### Core Documentation
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Quick reference guide for architecture
+- **[MicroCollabUIPlan.md](./MicroCollabUIPlan.md)** - Detailed UI-first development plan
+- **[MicroCollabPlan.md](./MicroCollabPlan.md)** - Comprehensive phase-by-phase plan
+
+### Technical Specs
 - [Product Spec](./microcollab_product_spec_v_1.md) - Product requirements
 - [Demo Mode Implementation](./DEMO_MODE_IMPL.md) - Complete demo mode specification
+
+### Architecture Highlights
+- **UI-First Development**: Build complete UI with mock data, swap to APIs later
+- **Service Layer Pattern**: Interface-based services for seamless mock→real migration
+- **Tanstack Query**: Data fetching abstraction with caching and optimistic updates
+- **localStorage Persistence**: Client-side data storage with Zustand persist
+- **Type-Safe Contracts**: Service interfaces ensure compile-time safety
+- **One-Variable Migration**: Change `NEXT_PUBLIC_USE_MOCK=false` → Production ready!
 
 ## 🗺️ Roadmap
 
