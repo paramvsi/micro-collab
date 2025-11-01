@@ -1,20 +1,44 @@
 # MicroCollab Development Plan
-**Version:** 1.0
-**Last Updated:** 2025-10-29
+**Version:** 1.1
+**Last Updated:** 2025-01-11
+
+---
+
+## 🎯 Development Strategy
+
+**PRIMARY FOCUS: UI-First Development** → See [@MicroCollabUIPlan.md](./MicroCollabUIPlan.md) for detailed implementation
+
+This plan follows a **mock-first architecture** enabling complete UI development without backend dependency. All features use localStorage + Zustand + Tanstack Query, allowing seamless API migration later with ONE environment variable change.
 
 ---
 
 ## Executive Summary
 
-MicroCollab is a marketplace platform connecting developers and small teams with experienced peers for **short, focused help sessions (1-4 hours)**. Unlike traditional freelance portals, MicroCollab focuses on instant, time-boxed collaborations for debugging, refactoring, testing, UX improvements, and architectural guidance. Built with Next.js 15, TypeScript, Tailwind CSS v4, Supabase (auth + database + realtime), and deployed on Vercel's free tier. The project follows an API-first architecture with mock data services enabling immediate UI development while maintaining production-ready patterns. Three-phase delivery: Phase 1 (3 weeks) delivers portfolio-ready MVP with demo mode, Phase 2 (2 weeks) adds Supabase Realtime integration and advanced features, Phase 3 (optional) includes payment gateway and external integrations.
+MicroCollab is a marketplace platform connecting developers and small teams with experienced peers for **short, focused help sessions (1-4 hours)**. Unlike traditional freelance portals, MicroCollab focuses on instant, time-boxed collaborations for debugging, refactoring, testing, UX improvements, and architectural guidance. Built with Next.js 15, TypeScript, Tailwind CSS v4, and deployed on Vercel's free tier.
 
-**Tech Stack:** Next.js 15 + TypeScript + App Router | Zustand state management | React Hook Form + Zod | shadcn/ui + Tailwind CSS v4 | Supabase (Auth + PostgreSQL + Realtime) | Lucide Icons | Recharts | Framer Motion | Vitest + Playwright | Vercel deployment
+**Development Philosophy:** Build complete UI with realistic mock data (localStorage persistence) first, then swap to real APIs later without any component changes.
+
+**Tech Stack:** Next.js 15 + TypeScript + App Router | **Zustand + localStorage** (state + persistence) | **Tanstack Query** (data fetching abstraction) | React Hook Form + Zod | shadcn/ui + Tailwind CSS v4 | **@faker-js/faker** (mock data) | Lucide Icons | Recharts | Framer Motion | Vitest + Playwright | Vercel deployment
+
+**Migration Strategy:** Change `NEXT_PUBLIC_USE_MOCK=false` → Real APIs active → Zero UI changes
 
 ---
 
 ## Architecture Overview
 
-**Service Layer Pattern:** All data flows through service interfaces (`lib/services/`) that abstract mock providers (`lib/api/mock/`) and real providers (`lib/api/supabase/`). API routes (`app/api/`) call services, components use custom hooks (`lib/hooks/`), and Zustand stores manage global state. This enables UI development with realistic mock data while maintaining identical interfaces for Supabase swap in Phase 2.
+**UI-First Architecture:** All data flows through **service interfaces** that abstract mock providers (localStorage) and real providers (Supabase). Components use **Tanstack Query hooks**, never directly accessing services. This creates a **swap-able data layer** requiring zero component changes during API migration.
+
+```
+Components → Tanstack Query Hooks → Service Interface → Mock/Real Service → localStorage/Supabase
+```
+
+**See [@MicroCollabUIPlan.md](./MicroCollabUIPlan.md) for:**
+- Complete data flow architecture
+- Service interface patterns
+- Tanstack Query setup
+- localStorage persistence strategy
+- Mock service implementations
+- API migration guide
 
 **Marketplace Architecture:** Dual user roles (Requester/Helper) with role-based dashboards, request/offer matching system, session collaboration rooms, real-time notifications, and bidirectional rating system. Demo mode simulates marketplace activity with fake requests, offers, and matching events.
 
@@ -637,16 +661,46 @@ export function ExampleCard({ title, className, children }: ExampleCardProps) {
 
 ### Mock Data Service Foundation
 - [ ] Create mock data types in `types/mock-data.ts` (demo requests, offers, sessions, users)
-- [ ] Create mock data generator: `lib/api/mock/data-generator.ts` with faker.js integration (optional)
-- [ ] Create mock request service: `lib/api/mock/request-service.ts` with CRUD operations
-- [ ] Create mock offer service: `lib/api/mock/offer-service.ts` with request association
-- [ ] Create mock session service: `lib/api/mock/session-service.ts` with lifecycle management
-- [ ] Create mock user service: `lib/api/mock/user-service.ts` with profile CRUD
+- [ ] Create mock data generator: `lib/mock/data/generators.ts` with @faker-js/faker integration
+- [ ] Install Tanstack Query: `npm install @tanstack/react-query @tanstack/react-query-devtools`
+- [ ] Create storage utility: `lib/mock/utils/storage.ts` (type-safe localStorage wrapper)
+- [ ] Create delay utility: `lib/mock/utils/delay.ts` (simulate network latency 100-300ms)
 - [ ] Create service interfaces: `lib/services/types.ts` with interface definitions for all services
-- [ ] Test mock services: Unit tests verifying CRUD operations work correctly
+- [ ] Create mock request service: `lib/mock/services/mock-request-service.ts` with localStorage CRUD
+- [ ] Create mock offer service: `lib/mock/services/mock-offer-service.ts` with localStorage CRUD
+- [ ] Create mock session service: `lib/mock/services/mock-session-service.ts` with localStorage CRUD
+- [ ] Create mock user service: `lib/mock/services/mock-user-service.ts` with localStorage CRUD
+- [ ] Create mock message service: `lib/mock/services/mock-message-service.ts` with localStorage CRUD
+- [ ] Create service selectors: `lib/services/request-service.ts` (exports mock or real based on env)
+- [ ] Create Tanstack Query hooks: `lib/hooks/queries/use-requests.ts`, `use-create-request.ts`, etc.
+- [ ] Create auth store: `lib/stores/auth-store.ts` with Zustand persist middleware
+- [ ] Create notification store: `lib/stores/notification-store.ts` with Zustand persist middleware
+- [ ] Create Tanstack Query provider: `app/providers.tsx` with QueryClientProvider
+- [ ] Test mock services: Unit tests verifying localStorage CRUD operations work correctly
+- [ ] Test Tanstack Query hooks: Hook tests with React Testing Library
+
+---
+
+## 📚 Implementation Reference
+
+**🎯 ALWAYS FOLLOW:** [@MicroCollabUIPlan.md](./MicroCollabUIPlan.md) for detailed architecture patterns
+
+**Key Principles:**
+1. **Never access services directly from components** → Always use Tanstack Query hooks
+2. **All state persistence via Zustand + localStorage** → No useState for global state
+3. **Service interfaces match real API contracts** → Type-safe migration path
+4. **Simulate network delays in mock services** → Realistic loading states
+5. **Optimistic updates for all mutations** → Smooth UX without backend
+
+**Migration Checklist (Future):**
+- [ ] Create real API services implementing service interfaces
+- [ ] Change `NEXT_PUBLIC_USE_MOCK=false` in `.env.local`
+- [ ] Verify all Tanstack Query hooks work with real APIs
+- [ ] Test error handling with real network failures
+- [ ] Deploy to production with Supabase backend
 
 ---
 
 **Ready to begin Phase 1A implementation!** 🚀
 
-**Next step:** Initialize Next.js project and configure base dependencies for MicroCollab marketplace platform.
+**Next step:** Initialize Next.js project and configure mock-first architecture following [@MicroCollabUIPlan.md](./MicroCollabUIPlan.md).
