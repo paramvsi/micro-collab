@@ -1,0 +1,270 @@
+'use client';
+
+/**
+ * RequestFilters Component
+ * Sidebar filter controls for browsing requests
+ */
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Filter, ChevronDown } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import type { RequestFilters as FilterType } from '@/types/request';
+import { POPULAR_SKILLS } from '@/lib/validations/request-schema';
+
+interface RequestFiltersProps {
+  filters: FilterType;
+  onChange: (filters: FilterType) => void;
+}
+
+export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
+  const [showAllSkills, setShowAllSkills] = useState(false);
+  const displayedSkills = showAllSkills ? POPULAR_SKILLS : POPULAR_SKILLS.slice(0, 12);
+
+  const hasActiveFilters =
+    (filters.tags && filters.tags.length > 0) ||
+    filters.urgency ||
+    filters.mode ||
+    filters.duration_min !== undefined ||
+    filters.duration_max !== undefined;
+
+  const handleTagToggle = (tag: string) => {
+    const currentTags = filters.tags || [];
+    const newTags = currentTags.includes(tag)
+      ? currentTags.filter(t => t !== tag)
+      : [...currentTags, tag];
+
+    onChange({ ...filters, tags: newTags.length > 0 ? newTags : undefined });
+  };
+
+  const handleUrgencyToggle = (urgency: 'low' | 'normal' | 'critical') => {
+    const currentUrgency = filters.urgency || [];
+    const newUrgency = currentUrgency.includes(urgency)
+      ? currentUrgency.filter(u => u !== urgency)
+      : [...currentUrgency, urgency];
+
+    onChange({ ...filters, urgency: newUrgency.length > 0 ? newUrgency : undefined });
+  };
+
+  const handleDurationChange = (value: number[]) => {
+    onChange({
+      ...filters,
+      duration_min: value[0],
+      duration_max: value[1]
+    });
+  };
+
+  const clearFilters = () => {
+    onChange({});
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <Card className="sticky top-6 border-brand-purple/20 bg-dark-card/50 backdrop-blur-sm p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <Filter className="h-5 w-5 text-brand-purple" />
+            <h2 className="text-lg font-semibold text-white">Filters</h2>
+          </div>
+          {hasActiveFilters && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearFilters}
+              className="text-muted-foreground hover:text-white"
+            >
+              Clear
+            </Button>
+          )}
+        </div>
+
+        <div className="space-y-6">
+          {/* Skills/Tags Filter */}
+          <div>
+            <Label className="text-white mb-3 block">Skills</Label>
+            <div className="flex flex-wrap gap-2">
+              <AnimatePresence mode="popLayout">
+                {displayedSkills.map((skill) => {
+                  const isSelected = filters.tags?.includes(skill);
+                  return (
+                    <motion.div
+                      key={skill}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Badge
+                        variant={isSelected ? 'default' : 'outline'}
+                        className={`
+                          cursor-pointer transition-all duration-200
+                          ${
+                            isSelected
+                              ? 'bg-brand-purple text-white border-brand-purple hover:bg-brand-purple/80'
+                              : 'border-brand-purple/30 text-muted-foreground hover:border-brand-purple/60 hover:text-white'
+                          }
+                        `}
+                        onClick={() => handleTagToggle(skill)}
+                      >
+                        {skill}
+                      </Badge>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+            {POPULAR_SKILLS.length > 12 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowAllSkills(!showAllSkills)}
+                className="mt-3 text-brand-purple hover:text-brand-cyan transition-colors"
+              >
+                {showAllSkills ? 'Show Less' : `Show ${POPULAR_SKILLS.length - 12} More`}
+                <ChevronDown
+                  className={`ml-1 h-4 w-4 transition-transform ${
+                    showAllSkills ? 'rotate-180' : ''
+                  }`}
+                />
+              </Button>
+            )}
+          </div>
+
+          {/* Duration Filter */}
+          <div>
+            <Label className="text-white mb-3 block">
+              Duration: {filters.duration_min || 1}h - {filters.duration_max || 4}h
+            </Label>
+            <Slider
+              min={1}
+              max={4}
+              step={1}
+              value={[filters.duration_min || 1, filters.duration_max || 4]}
+              onValueChange={handleDurationChange}
+              className="[&_[role=slider]]:bg-brand-purple [&_[role=slider]]:border-brand-purple"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground mt-2">
+              <span>1 hour</span>
+              <span>4 hours</span>
+            </div>
+          </div>
+
+          {/* Urgency Filter */}
+          <div>
+            <Label className="text-white mb-3 block">Urgency</Label>
+            <div className="space-y-3">
+              {[
+                { value: 'low', label: 'Low', color: 'text-steel-400' },
+                { value: 'normal', label: 'Normal', color: 'text-warning-400' },
+                { value: 'critical', label: 'Critical', color: 'text-error-400' }
+              ].map(({ value, label, color }) => (
+                <div key={value} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`urgency-${value}`}
+                    checked={filters.urgency?.includes(value as any) || false}
+                    onCheckedChange={() => handleUrgencyToggle(value as any)}
+                    className="border-brand-purple/30 data-[state=checked]:bg-brand-purple data-[state=checked]:border-brand-purple"
+                  />
+                  <Label
+                    htmlFor={`urgency-${value}`}
+                    className={`text-sm cursor-pointer ${color}`}
+                  >
+                    {label}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mode Filter */}
+          <div>
+            <Label className="text-white mb-3 block">Collaboration Mode</Label>
+            <Select
+              value={filters.mode || 'all'}
+              onValueChange={(value) =>
+                onChange({
+                  ...filters,
+                  mode: value === 'all' ? undefined : (value as 'async' | 'live')
+                })
+              }
+            >
+              <SelectTrigger className="bg-dark-elevated border-brand-purple/20">
+                <SelectValue placeholder="All modes" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Modes</SelectItem>
+                <SelectItem value="async">Async Chat</SelectItem>
+                <SelectItem value="live">Live Session</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Sort Filter */}
+          <div>
+            <Label className="text-white mb-3 block">Sort By</Label>
+            <Select
+              value={filters.sort || 'newest'}
+              onValueChange={(value) =>
+                onChange({
+                  ...filters,
+                  sort: value as FilterType['sort']
+                })
+              }
+            >
+              <SelectTrigger className="bg-dark-elevated border-brand-purple/20">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest">Newest First</SelectItem>
+                <SelectItem value="urgent">Most Urgent</SelectItem>
+                <SelectItem value="budget">Highest Budget</SelectItem>
+                <SelectItem value="best_match">Best Match</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Active filters count */}
+          {hasActiveFilters && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="pt-4 border-t border-brand-purple/20"
+            >
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">
+                  {(filters.tags?.length || 0) + (filters.urgency?.length || 0) + (filters.mode ? 1 : 0)} active filter(s)
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={clearFilters}
+                  className="border-error-500/20 text-error-400 hover:bg-error-500/10"
+                >
+                  <X className="h-3 w-3 mr-1" />
+                  Clear All
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </div>
+      </Card>
+    </motion.div>
+  );
+}
