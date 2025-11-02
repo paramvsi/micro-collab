@@ -121,9 +121,13 @@ export default function BrowsePage() {
                 <span className="gradient-text">Browse</span>{" "}
                 <span className="text-white">Requests</span>
               </h1>
-              <p className="flex items-center gap-2 text-base sm:text-lg text-steel">
-                <Search className="h-4 w-4 sm:h-5 sm:w-5 text-brand-sky" />
-                <span className="line-clamp-2 sm:line-clamp-none">Find opportunities to help others and earn rewards</span>
+              <p className="flex items-center gap-2 text-base sm:text-lg">
+                <div className="p-1.5 rounded-lg bg-gradient-to-br from-brand-sky/20 to-brand-cyan/20">
+                  <Search className="h-4 w-4 sm:h-5 sm:w-5 text-brand-sky" />
+                </div>
+                <span className="line-clamp-2 sm:line-clamp-none bg-gradient-to-r from-brand-sky via-brand-cyan to-brand-purple bg-clip-text text-transparent font-medium">
+                  Find opportunities to help others and earn rewards
+                </span>
               </p>
 
               {/* Live indicator - responsive */}
@@ -131,16 +135,16 @@ export default function BrowsePage() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-brand-emerald/20 px-3 sm:px-4 py-1.5 sm:py-2"
+                className="mt-3 sm:mt-4 inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-gradient-to-r from-brand-emerald/20 via-success-400/20 to-brand-emerald/20 px-3 sm:px-4 py-1.5 sm:py-2 border border-brand-emerald/30 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
               >
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-emerald opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-emerald" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-emerald shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                 </span>
-                <span className="text-xs sm:text-sm font-medium text-brand-emerald">
+                <span className="text-xs sm:text-sm font-bold bg-gradient-to-r from-brand-emerald to-success-400 bg-clip-text text-transparent">
                   {isLoading ? 'Loading...' : `${requests?.length || 0} active requests`}
                 </span>
-                <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-brand-emerald" />
+                <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-brand-emerald animate-pulse" />
               </motion.div>
             </div>
 
@@ -170,12 +174,14 @@ export default function BrowsePage() {
 
           {/* Search Bar - below header */}
           <div className="relative mt-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 p-1.5 rounded bg-gradient-to-br from-brand-purple/20 to-brand-pink/20">
+              <Search className="h-4 w-4 text-brand-purple" />
+            </div>
             <Input
               placeholder="Search requests..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-dark-elevated border-brand-purple/20"
+              className="pl-12 bg-dark-elevated border-brand-purple/30 focus:border-brand-purple/60 focus:ring-brand-purple/20"
             />
           </div>
         </motion.div>

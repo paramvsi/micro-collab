@@ -80,15 +80,17 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <Filter className="h-5 w-5 text-brand-purple" />
-            <h2 className="text-lg font-semibold text-white">Filters</h2>
+            <div className="p-2 rounded-lg bg-gradient-to-br from-brand-purple/20 to-brand-pink/20">
+              <Filter className="h-5 w-5 text-brand-purple" />
+            </div>
+            <h2 className="text-lg font-semibold gradient-text">Filters</h2>
           </div>
           {hasActiveFilters && (
             <Button
               variant="ghost"
               size="sm"
               onClick={clearFilters}
-              className="text-muted-foreground hover:text-white"
+              className="text-brand-pink hover:text-white hover:bg-brand-pink/10"
             >
               Clear
             </Button>
@@ -98,11 +100,18 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
         <div className="space-y-6">
           {/* Skills/Tags Filter */}
           <div>
-            <Label className="text-white mb-3 block">Skills</Label>
+            <Label className="text-brand-cyan font-medium mb-3 block">Skills</Label>
             <div className="flex flex-wrap gap-2">
               <AnimatePresence mode="popLayout">
-                {displayedSkills.map((skill) => {
+                {displayedSkills.map((skill, idx) => {
                   const isSelected = filters.tags?.includes(skill);
+                  const skillColors = [
+                    { bg: 'bg-gradient-to-r from-brand-cyan/20 to-brand-sky/20', text: 'text-brand-cyan', border: 'border-brand-cyan/40', hover: 'hover:shadow-[0_0_12px_rgba(6,182,212,0.4)]' },
+                    { bg: 'bg-gradient-to-r from-brand-purple/20 to-brand-pink/20', text: 'text-brand-pink', border: 'border-brand-pink/40', hover: 'hover:shadow-[0_0_12px_rgba(236,72,153,0.4)]' },
+                    { bg: 'bg-gradient-to-r from-brand-emerald/20 to-success-400/20', text: 'text-brand-emerald', border: 'border-brand-emerald/40', hover: 'hover:shadow-[0_0_12px_rgba(16,185,129,0.4)]' },
+                    { bg: 'bg-gradient-to-r from-brand-orange/20 to-warning-400/20', text: 'text-brand-orange', border: 'border-brand-orange/40', hover: 'hover:shadow-[0_0_12px_rgba(251,146,60,0.4)]' },
+                  ];
+                  const colorSet = skillColors[idx % skillColors.length];
                   return (
                     <motion.div
                       key={skill}
@@ -112,13 +121,13 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
                       transition={{ duration: 0.2 }}
                     >
                       <Badge
-                        variant={isSelected ? 'default' : 'outline'}
+                        variant="outline"
                         className={`
                           cursor-pointer transition-all duration-200
                           ${
                             isSelected
-                              ? 'bg-brand-purple text-white border-brand-purple hover:bg-brand-purple/80'
-                              : 'border-brand-purple/30 text-muted-foreground hover:border-brand-purple/60 hover:text-white'
+                              ? `${colorSet.bg} ${colorSet.text} ${colorSet.border} ${colorSet.hover}`
+                              : 'border-brand-purple/30 text-steel hover:border-brand-purple/60 hover:text-white'
                           }
                         `}
                         onClick={() => handleTagToggle(skill)}
@@ -149,8 +158,8 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
 
           {/* Duration Filter */}
           <div>
-            <Label className="text-white mb-3 block">
-              Duration: {filters.duration_min || 1}h - {filters.duration_max || 4}h
+            <Label className="text-brand-sky font-medium mb-3 block">
+              Duration: <span className="text-brand-cyan">{filters.duration_min || 1}h - {filters.duration_max || 4}h</span>
             </Label>
             <Slider
               min={1}
@@ -158,9 +167,9 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
               step={1}
               value={[filters.duration_min || 1, filters.duration_max || 4]}
               onValueChange={handleDurationChange}
-              className="[&_[role=slider]]:bg-brand-purple [&_[role=slider]]:border-brand-purple"
+              className="[&_[role=slider]]:bg-gradient-to-r [&_[role=slider]]:from-brand-cyan [&_[role=slider]]:to-brand-purple [&_[role=slider]]:border-brand-purple"
             />
-            <div className="flex justify-between text-xs text-muted-foreground mt-2">
+            <div className="flex justify-between text-xs text-steel mt-2">
               <span>1 hour</span>
               <span>4 hours</span>
             </div>
@@ -168,23 +177,23 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
 
           {/* Urgency Filter */}
           <div>
-            <Label className="text-white mb-3 block">Urgency</Label>
+            <Label className="text-brand-orange font-medium mb-3 block">Urgency</Label>
             <div className="space-y-3">
               {[
-                { value: 'low', label: 'Low', color: 'text-steel-400' },
-                { value: 'normal', label: 'Normal', color: 'text-warning-400' },
-                { value: 'critical', label: 'Critical', color: 'text-error-400' }
-              ].map(({ value, label, color }) => (
+                { value: 'low', label: 'Low', color: 'text-steel-400', checkColor: 'data-[state=checked]:bg-steel-400 data-[state=checked]:border-steel-400' },
+                { value: 'normal', label: 'Normal', color: 'text-warning-400', checkColor: 'data-[state=checked]:bg-warning-400 data-[state=checked]:border-warning-400' },
+                { value: 'critical', label: 'Critical', color: 'text-error-400', checkColor: 'data-[state=checked]:bg-error-400 data-[state=checked]:border-error-400' }
+              ].map(({ value, label, color, checkColor }) => (
                 <div key={value} className="flex items-center gap-2">
                   <Checkbox
                     id={`urgency-${value}`}
                     checked={filters.urgency?.includes(value as any) || false}
                     onCheckedChange={() => handleUrgencyToggle(value as any)}
-                    className="border-brand-purple/30 data-[state=checked]:bg-brand-purple data-[state=checked]:border-brand-purple"
+                    className={`border-brand-purple/30 ${checkColor}`}
                   />
                   <Label
                     htmlFor={`urgency-${value}`}
-                    className={`text-sm cursor-pointer ${color}`}
+                    className={`text-sm cursor-pointer font-medium ${color}`}
                   >
                     {label}
                   </Label>
@@ -195,7 +204,7 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
 
           {/* Mode Filter */}
           <div>
-            <Label className="text-white mb-3 block">Collaboration Mode</Label>
+            <Label className="text-brand-pink font-medium mb-3 block">Collaboration Mode</Label>
             <Select
               value={filters.mode || 'all'}
               onValueChange={(value) =>
@@ -205,7 +214,7 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
                 })
               }
             >
-              <SelectTrigger className="bg-dark-elevated border-brand-purple/20">
+              <SelectTrigger className="bg-dark-elevated border-brand-pink/30 hover:border-brand-pink/50 transition-colors">
                 <SelectValue placeholder="All modes" />
               </SelectTrigger>
               <SelectContent>
@@ -218,7 +227,7 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
 
           {/* Sort Filter */}
           <div>
-            <Label className="text-white mb-3 block">Sort By</Label>
+            <Label className="text-brand-emerald font-medium mb-3 block">Sort By</Label>
             <Select
               value={filters.sort || 'newest'}
               onValueChange={(value) =>
@@ -228,7 +237,7 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
                 })
               }
             >
-              <SelectTrigger className="bg-dark-elevated border-brand-purple/20">
+              <SelectTrigger className="bg-dark-elevated border-brand-emerald/30 hover:border-brand-emerald/50 transition-colors">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>

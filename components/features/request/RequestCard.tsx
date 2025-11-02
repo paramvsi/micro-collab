@@ -104,19 +104,28 @@ export function RequestCard({ request, index = 0 }: RequestCardProps) {
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {request.tags.slice(0, 4).map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="bg-brand-purple/10 text-brand-purple border-brand-purple/20 hover:bg-brand-purple/20 transition-colors"
-                >
-                  {tag}
-                </Badge>
-              ))}
+              {request.tags.slice(0, 4).map((tag, idx) => {
+                // Cycle through gradient colors for tags
+                const tagColors = [
+                  'bg-gradient-to-r from-brand-cyan/20 to-brand-sky/20 text-brand-cyan border-brand-cyan/30',
+                  'bg-gradient-to-r from-brand-purple/20 to-brand-pink/20 text-brand-pink border-brand-pink/30',
+                  'bg-gradient-to-r from-brand-emerald/20 to-brand-sky/20 text-brand-emerald border-brand-emerald/30',
+                  'bg-gradient-to-r from-brand-orange/20 to-brand-pink/20 text-brand-orange border-brand-orange/30',
+                ];
+                return (
+                  <Badge
+                    key={tag}
+                    variant="secondary"
+                    className={`${tagColors[idx % tagColors.length]} hover:scale-105 transition-transform`}
+                  >
+                    {tag}
+                  </Badge>
+                );
+              })}
               {request.tags.length > 4 && (
                 <Badge
                   variant="secondary"
-                  className="bg-muted/50 text-muted-foreground"
+                  className="bg-steel-400/10 text-steel-400 border-steel-400/30"
                 >
                   +{request.tags.length - 4}
                 </Badge>
@@ -124,24 +133,24 @@ export function RequestCard({ request, index = 0 }: RequestCardProps) {
             </div>
 
             {/* Meta information */}
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-4 text-sm text-steel">
               {/* Duration */}
               <div className="flex items-center gap-1.5">
-                <Clock className="h-4 w-4" />
-                <span>{request.duration_hours}h</span>
+                <Clock className="h-4 w-4 text-brand-sky" />
+                <span className="text-white">{request.duration_hours}h</span>
               </div>
 
               {/* Mode */}
               <div className="flex items-center gap-1.5">
-                <ModeIcon className="h-4 w-4" />
-                <span className="capitalize">{request.mode}</span>
+                <ModeIcon className={`h-4 w-4 ${request.mode === 'live' ? 'text-brand-pink' : 'text-brand-cyan'}`} />
+                <span className="capitalize text-white">{request.mode}</span>
               </div>
 
               {/* Budget */}
               {request.budget && (
                 <div className="flex items-center gap-1.5">
-                  <DollarSign className="h-4 w-4" />
-                  <span>
+                  <DollarSign className="h-4 w-4 text-brand-emerald" />
+                  <span className="text-white">
                     ${request.budget}
                     {request.budget_type === 'hourly' && '/hr'}
                   </span>
@@ -150,8 +159,8 @@ export function RequestCard({ request, index = 0 }: RequestCardProps) {
 
               {/* Posted time */}
               <div className="flex items-center gap-1.5 ml-auto">
-                <Calendar className="h-4 w-4" />
-                <span>
+                <Calendar className="h-4 w-4 text-brand-orange" />
+                <span className="text-steel">
                   {formatDistanceToNow(new Date(request.created_at), {
                     addSuffix: true
                   })}
