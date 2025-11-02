@@ -12,6 +12,11 @@ import type {
 } from '@/types/request';
 
 /**
+ * Re-export types from other modules for convenience
+ */
+export type { Request, RequestFilters, RequestWithUser } from '@/types/request';
+
+/**
  * DTO (Data Transfer Object) types for creating/updating resources
  */
 

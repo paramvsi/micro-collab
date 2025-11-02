@@ -180,13 +180,13 @@ export function RequestForm() {
 
             {/* Suggestions dropdown */}
             {showSkillSuggestions && tagInput && suggestedSkills.length > 0 && (
-              <Card className="absolute top-full left-0 right-0 mt-2 z-10 border-brand-purple/20 bg-dark-elevated p-2 max-h-60 overflow-y-auto">
+              <Card className="absolute top-full left-0 right-0 mt-2 z-10 border-brand-purple/30 bg-graphite/95 backdrop-blur-sm p-2 max-h-60 overflow-y-auto shadow-xl">
                 {suggestedSkills.map(skill => (
                   <button
                     key={skill}
                     type="button"
                     onClick={() => handleAddTag(skill)}
-                    className="w-full text-left px-3 py-2 hover:bg-brand-purple/20 rounded text-sm text-white transition-colors"
+                    className="w-full text-left px-3 py-2 hover:bg-brand-purple/30 rounded text-sm text-white transition-colors"
                   >
                     {skill}
                   </button>
@@ -226,27 +226,48 @@ export function RequestForm() {
         <div className="space-y-2">
           <Label className="text-white">Urgency</Label>
           <div className="grid grid-cols-3 gap-2">
-            {[
-              { value: 'low', label: 'Low', color: 'steel' },
-              { value: 'normal', label: 'Normal', color: 'warning' },
-              { value: 'critical', label: 'Critical', color: 'error' }
-            ].map(({ value, label, color }) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setValue('urgency', value as any)}
-                className={`
-                  px-4 py-3 rounded-lg border-2 transition-all font-medium text-sm
-                  ${
-                    watch('urgency') === value
-                      ? `border-${color}-400 bg-${color}-400/10 text-${color}-400`
-                      : 'border-brand-purple/20 bg-dark-elevated text-muted-foreground hover:border-brand-purple/40'
-                  }
-                `}
-              >
-                {label}
-              </button>
-            ))}
+            <button
+              type="button"
+              onClick={() => setValue('urgency', 'low')}
+              className={`
+                px-4 py-3 rounded-lg border-2 transition-all font-medium text-sm
+                ${
+                  watch('urgency') === 'low'
+                    ? 'border-steel-400 bg-steel-400/10 text-steel-400'
+                    : 'border-brand-purple/20 bg-dark-elevated text-muted-foreground hover:border-steel-400/40 hover:text-steel-400'
+                }
+              `}
+            >
+              Low
+            </button>
+            <button
+              type="button"
+              onClick={() => setValue('urgency', 'normal')}
+              className={`
+                px-4 py-3 rounded-lg border-2 transition-all font-medium text-sm
+                ${
+                  watch('urgency') === 'normal'
+                    ? 'border-warning-400 bg-warning-400/10 text-warning-400'
+                    : 'border-brand-purple/20 bg-dark-elevated text-muted-foreground hover:border-warning-400/40 hover:text-warning-400'
+                }
+              `}
+            >
+              Normal
+            </button>
+            <button
+              type="button"
+              onClick={() => setValue('urgency', 'critical')}
+              className={`
+                px-4 py-3 rounded-lg border-2 transition-all font-medium text-sm
+                ${
+                  watch('urgency') === 'critical'
+                    ? 'border-error-400 bg-error-400/10 text-error-400'
+                    : 'border-brand-purple/20 bg-dark-elevated text-muted-foreground hover:border-error-400/40 hover:text-error-400'
+                }
+              `}
+            >
+              Critical
+            </button>
           </div>
         </div>
       </div>
@@ -255,35 +276,41 @@ export function RequestForm() {
       <div className="space-y-2">
         <Label className="text-white">Collaboration Mode</Label>
         <div className="grid grid-cols-2 gap-4">
-          {[
-            {
-              value: 'async',
-              label: 'Async Chat',
-              description: 'Message back and forth at your own pace'
-            },
-            {
-              value: 'live',
-              label: 'Live Session',
-              description: 'Real-time video/screen sharing'
-            }
-          ].map(({ value, label, description }) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => setValue('mode', value as any)}
-              className={`
-                p-4 rounded-lg border-2 transition-all text-left
-                ${
-                  watch('mode') === value
-                    ? 'border-brand-purple bg-brand-purple/10'
-                    : 'border-brand-purple/20 bg-dark-elevated hover:border-brand-purple/40'
-                }
-              `}
-            >
-              <div className="font-semibold text-white mb-1">{label}</div>
-              <div className="text-xs text-muted-foreground">{description}</div>
-            </button>
-          ))}
+          <button
+            type="button"
+            onClick={() => setValue('mode', 'async')}
+            className={`
+              p-4 rounded-lg border-2 transition-all text-left
+              ${
+                watch('mode') === 'async'
+                  ? 'border-brand-cyan bg-brand-cyan/10 shadow-[0_0_16px_rgba(6,182,212,0.3)]'
+                  : 'border-brand-purple/30 bg-graphite/50 hover:border-brand-cyan/50 hover:bg-brand-cyan/5'
+              }
+            `}
+          >
+            <div className={`font-semibold mb-1 ${watch('mode') === 'async' ? 'text-brand-cyan' : 'text-white'}`}>
+              Async Chat
+            </div>
+            <div className="text-xs text-steel">Message back and forth at your own pace</div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setValue('mode', 'live')}
+            className={`
+              p-4 rounded-lg border-2 transition-all text-left
+              ${
+                watch('mode') === 'live'
+                  ? 'border-brand-pink bg-brand-pink/10 shadow-[0_0_16px_rgba(236,72,153,0.3)]'
+                  : 'border-brand-purple/30 bg-graphite/50 hover:border-brand-pink/50 hover:bg-brand-pink/5'
+              }
+            `}
+          >
+            <div className={`font-semibold mb-1 ${watch('mode') === 'live' ? 'text-brand-pink' : 'text-white'}`}>
+              Live Session
+            </div>
+            <div className="text-xs text-steel">Real-time video/screen sharing</div>
+          </button>
         </div>
       </div>
 
@@ -329,8 +356,9 @@ export function RequestForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-pink hover:opacity-90 transition-opacity"
+          variant="gradient"
           size="lg"
+          className="w-full"
         >
           {isSubmitting ? (
             <>

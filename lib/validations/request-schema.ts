@@ -39,16 +39,16 @@ export const requestFormSchema = z.object({
     .int('Duration must be a whole number'),
 
   urgency: z.enum(['low', 'normal', 'critical'], {
-    required_error: 'Please select urgency level'
+    message: 'Please select urgency level'
   }),
 
   mode: z.enum(['async', 'live'], {
-    required_error: 'Please select collaboration mode'
+    message: 'Please select collaboration mode'
   }),
 
   budget: z.number().min(0, 'Budget must be positive').optional(),
 
-  currency: z.string().default('USD'),
+  currency: z.string().optional(),
 
   budget_type: z.enum(['hourly', 'fixed']).optional(),
 

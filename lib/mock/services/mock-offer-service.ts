@@ -44,7 +44,7 @@ export const mockOfferService: OfferService = {
 
     // Enrich with helper data
     const users = getUsers();
-    const enrichedOffers: OfferWithHelper[] = requestOffers
+    const enrichedOffers = requestOffers
       .map(offer => {
         const helper = users.find((u: any) => u.id === offer.offered_by);
         if (!helper) return null;
@@ -58,7 +58,7 @@ export const mockOfferService: OfferService = {
             rating: helper.rating,
             skills: helper.skills
           }
-        };
+        } as OfferWithHelper;
       })
       .filter((o): o is OfferWithHelper => o !== null);
 
