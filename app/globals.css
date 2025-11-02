@@ -102,10 +102,19 @@
 
   /* Gradient text - Primary gradient (Indigo → Pink → Orange) */
   .gradient-text {
+    color: #a78bfa; /* Fallback color for browsers that don't support background-clip */
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Support for browsers that don't support background-clip */
+  @supports not (background-clip: text) {
+    .gradient-text {
+      color: #a78bfa;
+      background: none;
+    }
   }
 
   /* Gradient text with luminous glow effect */
