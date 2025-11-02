@@ -96,7 +96,7 @@ export default function RequestDetailsPage() {
             {/* Header */}
             <div className="mb-4">
               <div className="flex items-start justify-between gap-3 sm:gap-4 mb-3">
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-tight">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold gradient-text leading-tight">
                   {request.title}
                 </h1>
                 <Badge
