@@ -105,13 +105,20 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
               <AnimatePresence mode="popLayout">
                 {displayedSkills.map((skill, idx) => {
                   const isSelected = filters.tags?.includes(skill);
-                  const skillColors = [
-                    { bg: 'bg-gradient-to-r from-brand-cyan/20 to-brand-sky/20', text: 'text-brand-cyan', border: 'border-brand-cyan/40', hover: 'hover:shadow-[0_0_12px_rgba(6,182,212,0.4)]' },
-                    { bg: 'bg-gradient-to-r from-brand-purple/20 to-brand-pink/20', text: 'text-brand-pink', border: 'border-brand-pink/40', hover: 'hover:shadow-[0_0_12px_rgba(236,72,153,0.4)]' },
-                    { bg: 'bg-gradient-to-r from-brand-emerald/20 to-success-400/20', text: 'text-brand-emerald', border: 'border-brand-emerald/40', hover: 'hover:shadow-[0_0_12px_rgba(16,185,129,0.4)]' },
-                    { bg: 'bg-gradient-to-r from-brand-orange/20 to-warning-400/20', text: 'text-brand-orange', border: 'border-brand-orange/40', hover: 'hover:shadow-[0_0_12px_rgba(251,146,60,0.4)]' },
-                  ];
-                  const colorSet = skillColors[idx % skillColors.length];
+                  const colorIndex = idx % 4;
+
+                  // Define complete className strings for Tailwind
+                  let selectedClasses = '';
+                  if (colorIndex === 0) {
+                    selectedClasses = 'bg-gradient-to-r from-brand-cyan/20 to-brand-sky/20 text-brand-cyan border-brand-cyan/40 hover:shadow-[0_0_12px_rgba(6,182,212,0.4)]';
+                  } else if (colorIndex === 1) {
+                    selectedClasses = 'bg-gradient-to-r from-brand-purple/20 to-brand-pink/20 text-brand-pink border-brand-pink/40 hover:shadow-[0_0_12px_rgba(236,72,153,0.4)]';
+                  } else if (colorIndex === 2) {
+                    selectedClasses = 'bg-gradient-to-r from-brand-emerald/20 to-success-400/20 text-brand-emerald border-brand-emerald/40 hover:shadow-[0_0_12px_rgba(16,185,129,0.4)]';
+                  } else {
+                    selectedClasses = 'bg-gradient-to-r from-brand-orange/20 to-warning-400/20 text-brand-orange border-brand-orange/40 hover:shadow-[0_0_12px_rgba(251,146,60,0.4)]';
+                  }
+
                   return (
                     <motion.div
                       key={skill}
@@ -126,7 +133,7 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
                           cursor-pointer transition-all duration-200
                           ${
                             isSelected
-                              ? `${colorSet.bg} ${colorSet.text} ${colorSet.border} ${colorSet.hover}`
+                              ? selectedClasses
                               : 'border-brand-purple/30 text-steel hover:border-brand-purple/60 hover:text-white'
                           }
                         `}
