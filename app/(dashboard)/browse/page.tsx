@@ -141,7 +141,7 @@ export default function BrowsePage() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-emerald opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-emerald shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
                 </span>
-                <span className="text-xs sm:text-sm font-bold bg-gradient-to-r from-brand-emerald to-success-400 bg-clip-text text-transparent">
+                <span className="text-xs sm:text-sm font-bold text-brand-emerald">
                   {isLoading ? 'Loading...' : `${requests?.length || 0} active requests`}
                 </span>
                 <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-brand-emerald animate-pulse" />
