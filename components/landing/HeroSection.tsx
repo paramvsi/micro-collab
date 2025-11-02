@@ -110,7 +110,7 @@ export function HeroSection() {
 
           <Button variant="outline" size="lg" asChild>
             <motion.a
-              href="/demo/browse"
+              href="/browse"
               whileHover={
                 !shouldReduceMotion
                   ? {
