@@ -107,41 +107,70 @@ export function RequestFilters({ filters, onChange }: RequestFiltersProps) {
                   const isSelected = filters.tags?.includes(skill);
                   const colorIndex = idx % 4;
 
-                  // Define complete className strings for Tailwind
-                  let selectedClasses = '';
+                  // Define gradient classes for each color
+                  let gradientClass = '';
+                  let glowClass = '';
+                  let textClass = '';
+                  let borderClass = '';
+
                   if (colorIndex === 0) {
-                    selectedClasses = 'bg-gradient-to-r from-brand-cyan/20 to-brand-sky/20 text-brand-cyan border-brand-cyan/40 hover:shadow-[0_0_12px_rgba(6,182,212,0.4)]';
+                    gradientClass = 'bg-gradient-to-r from-brand-cyan to-brand-sky';
+                    glowClass = 'bg-gradient-to-r from-brand-cyan to-brand-sky';
+                    textClass = 'text-brand-cyan';
+                    borderClass = 'border-brand-cyan/40';
                   } else if (colorIndex === 1) {
-                    selectedClasses = 'bg-gradient-to-r from-brand-purple/20 to-brand-pink/20 text-brand-pink border-brand-pink/40 hover:shadow-[0_0_12px_rgba(236,72,153,0.4)]';
+                    gradientClass = 'bg-gradient-to-r from-brand-purple to-brand-pink';
+                    glowClass = 'bg-gradient-to-r from-brand-purple to-brand-pink';
+                    textClass = 'text-brand-pink';
+                    borderClass = 'border-brand-pink/40';
                   } else if (colorIndex === 2) {
-                    selectedClasses = 'bg-gradient-to-r from-brand-emerald/20 to-success-400/20 text-brand-emerald border-brand-emerald/40 hover:shadow-[0_0_12px_rgba(16,185,129,0.4)]';
+                    gradientClass = 'bg-gradient-to-r from-brand-emerald to-success-400';
+                    glowClass = 'bg-gradient-to-r from-brand-emerald to-success-400';
+                    textClass = 'text-brand-emerald';
+                    borderClass = 'border-brand-emerald/40';
                   } else {
-                    selectedClasses = 'bg-gradient-to-r from-brand-orange/20 to-warning-400/20 text-brand-orange border-brand-orange/40 hover:shadow-[0_0_12px_rgba(251,146,60,0.4)]';
+                    gradientClass = 'bg-gradient-to-r from-brand-orange to-warning-400';
+                    glowClass = 'bg-gradient-to-r from-brand-orange to-warning-400';
+                    textClass = 'text-brand-orange';
+                    borderClass = 'border-brand-orange/40';
                   }
 
                   return (
-                    <motion.div
+                    <motion.button
                       key={skill}
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handleTagToggle(skill)}
+                      className={`
+                        group relative rounded-full border px-3 py-1.5 text-xs font-medium transition-all
+                        ${
+                          isSelected
+                            ? `border-transparent text-white shadow-lg ${borderClass}`
+                            : 'border-brand-purple/30 text-steel hover:border-brand-purple/60 hover:text-white'
+                        }
+                      `}
                     >
-                      <Badge
-                        variant="outline"
-                        className={`
-                          cursor-pointer transition-all duration-200
-                          ${
-                            isSelected
-                              ? selectedClasses
-                              : 'border-brand-purple/30 text-steel hover:border-brand-purple/60 hover:text-white'
-                          }
-                        `}
-                        onClick={() => handleTagToggle(skill)}
-                      >
-                        {skill}
-                      </Badge>
-                    </motion.div>
+                      {isSelected && (
+                        <motion.div
+                          layoutId={`skill-bg-${skill}`}
+                          className={`absolute inset-0 rounded-full opacity-90 ${gradientClass}`}
+                          initial={false}
+                          transition={{ duration: 0.3 }}
+                        />
+                      )}
+                      <span className="relative z-10">{skill}</span>
+                      {isSelected && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 0.2 }}
+                          className={`absolute inset-0 -z-10 rounded-full blur-lg ${glowClass}`}
+                        />
+                      )}
+                    </motion.button>
                   );
                 })}
               </AnimatePresence>
