@@ -59,7 +59,7 @@ export default function RequestDetailsPage() {
   }
 
   return (
-    <main className="relative min-h-screen bg-[radial-gradient(circle_at_60%_40%,_rgba(99,102,241,0.05),_transparent_80%)] mx-auto max-w-7xl px-4 py-8">
+    <main className="relative min-h-screen bg-[radial-gradient(circle_at_60%_40%,_rgba(99,102,241,0.05),_transparent_80%)] mx-auto max-w-7xl px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
       {/* Background Glows */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
@@ -73,29 +73,30 @@ export default function RequestDetailsPage() {
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="mb-6"
+        className="mb-4 sm:mb-6"
       >
         <Link href="/browse">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Browse
+          <Button variant="ghost" size="sm" className="text-sm">
+            <ArrowLeft className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Back to Browse</span>
+            <span className="sm:hidden">Back</span>
           </Button>
         </Link>
       </motion.div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Main Content - Request Details */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
           {/* Request Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-graphite/50 backdrop-blur-sm border border-brand-purple/20 rounded-xl p-6 shadow-lg"
+            className="bg-graphite/50 backdrop-blur-sm border border-brand-purple/20 rounded-xl p-4 sm:p-6 shadow-lg"
           >
             {/* Header */}
             <div className="mb-4">
-              <div className="flex items-start justify-between gap-4 mb-3">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-pink bg-clip-text text-transparent">
+              <div className="flex items-start justify-between gap-3 sm:gap-4 mb-3">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-brand-cyan via-brand-purple to-brand-pink bg-clip-text text-transparent leading-tight">
                   {request.title}
                 </h1>
                 <Badge
@@ -132,43 +133,51 @@ export default function RequestDetailsPage() {
             </div>
 
             {/* Meta Info */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-dark-elevated/50 rounded-lg">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 p-3 md:p-4 bg-dark-elevated/50 rounded-lg">
               <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-brand-sky" />
+                <div className="p-1.5 rounded-lg bg-gradient-to-br from-brand-sky/20 to-brand-cyan/20">
+                  <Clock className="h-3 w-3 md:h-4 md:w-4 text-brand-sky" />
+                </div>
                 <div>
-                  <div className="text-xs text-steel">Duration</div>
-                  <div className="text-sm font-medium text-white">{request.duration_hours}h</div>
+                  <div className="text-xs font-medium text-brand-sky">Duration</div>
+                  <div className="text-sm font-bold text-white">{request.duration_hours}h</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                {request.mode === 'async' ? (
-                  <MessageSquare className="h-4 w-4 text-brand-cyan" />
-                ) : (
-                  <Video className="h-4 w-4 text-brand-pink" />
-                )}
+                <div className={`p-1.5 rounded-lg ${request.mode === 'async' ? 'bg-gradient-to-br from-brand-cyan/20 to-brand-sky/20' : 'bg-gradient-to-br from-brand-pink/20 to-brand-purple/20'}`}>
+                  {request.mode === 'async' ? (
+                    <MessageSquare className="h-3 w-3 md:h-4 md:w-4 text-brand-cyan" />
+                  ) : (
+                    <Video className="h-3 w-3 md:h-4 md:w-4 text-brand-pink" />
+                  )}
+                </div>
                 <div>
-                  <div className="text-xs text-steel">Mode</div>
-                  <div className="text-sm font-medium text-white">
+                  <div className={`text-xs font-medium ${request.mode === 'async' ? 'text-brand-cyan' : 'text-brand-pink'}`}>Mode</div>
+                  <div className="text-sm font-bold text-white">
                     {request.mode === 'async' ? 'Async' : 'Live'}
                   </div>
                 </div>
               </div>
               {request.budget && (
                 <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-brand-emerald" />
+                  <div className="p-1.5 rounded-lg bg-gradient-to-br from-brand-emerald/20 to-success-400/20">
+                    <DollarSign className="h-3 w-3 md:h-4 md:w-4 text-brand-emerald" />
+                  </div>
                   <div>
-                    <div className="text-xs text-steel">Budget</div>
-                    <div className="text-sm font-medium text-white">
+                    <div className="text-xs font-medium text-brand-emerald">Budget</div>
+                    <div className="text-sm font-bold text-white">
                       ${request.budget}/{request.budget_type}
                     </div>
                   </div>
                 </div>
               )}
               <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-brand-orange" />
+                <div className="p-1.5 rounded-lg bg-gradient-to-br from-brand-orange/20 to-warning-400/20">
+                  <Calendar className="h-3 w-3 md:h-4 md:w-4 text-brand-orange" />
+                </div>
                 <div>
-                  <div className="text-xs text-steel">Posted</div>
-                  <div className="text-sm font-medium text-white">
+                  <div className="text-xs font-medium text-brand-orange">Posted</div>
+                  <div className="text-sm font-bold text-white">
                     {formatDistanceToNow(new Date(request.created_at), { addSuffix: true })}
                   </div>
                 </div>
@@ -197,18 +206,20 @@ export default function RequestDetailsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-graphite/50 backdrop-blur-sm border border-brand-purple/20 rounded-xl p-6 shadow-lg"
+            className="bg-graphite/50 backdrop-blur-sm border border-brand-purple/20 rounded-xl p-4 sm:p-6 shadow-lg"
           >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold gradient-text">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold gradient-text">
                 Offers {offers && offers.length > 0 && `(${offers.length})`}
               </h2>
               {!isOwner && !hasOffered && (
                 <Button
                   variant="gradient"
                   onClick={() => setShowOfferModal(true)}
+                  className="w-full sm:w-auto"
+                  size="sm"
                 >
-                  Submit Offer
+                  <span className="text-sm">Submit Offer</span>
                 </Button>
               )}
             </div>
