@@ -150,11 +150,13 @@ export interface SessionWithDetails extends Session {
     id: string;
     name: string;
     avatar_url?: string;
+    rating: number;
   };
   requester: {
     id: string;
     name: string;
     avatar_url?: string;
+    rating: number;
   };
 }
 

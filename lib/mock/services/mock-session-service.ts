@@ -36,12 +36,14 @@ const enrichSession = (session: Session): SessionWithDetails | null => {
     helper: {
       id: helper.id,
       name: helper.name,
-      avatar_url: helper.avatar_url
+      avatar_url: helper.avatar_url,
+      rating: helper.rating
     },
     requester: {
       id: requester.id,
       name: requester.name,
-      avatar_url: requester.avatar_url
+      avatar_url: requester.avatar_url,
+      rating: requester.rating
     }
   };
 };
