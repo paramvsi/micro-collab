@@ -20,7 +20,8 @@
       "Bash(npm run dev:*)",
       "Bash(netstat:*)",
       "Bash(tasklist:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(move page.tsx \"(marketing)\\page.tsx\")"
     ],
     "deny": [],
     "ask": []
