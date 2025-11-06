@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Search, Plus, LogOut, User, Settings } from "lucide-react";
+import { Menu, Search, Plus, LogOut, User, Settings, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,10 +35,10 @@ export function DashboardNavbar() {
 
   const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: null },
-    { href: "/dashboard/browse", label: "Browse", icon: null },
-    { href: "/dashboard/my-requests", label: "My Requests", icon: null },
-    { href: "/dashboard/my-offers", label: "My Offers", icon: null },
-    { href: "/dashboard/sessions", label: "Sessions", icon: null },
+    { href: "/browse", label: "Browse", icon: null },
+    { href: "/my-requests", label: "My Requests", icon: null },
+    { href: "/my-offers", label: "My Offers", icon: null },
+    { href: "/sessions", label: "Sessions", icon: null },
   ];
 
   const isActive = (href: string) => {
@@ -59,8 +60,14 @@ export function DashboardNavbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-8">
-            <Link href="/dashboard" className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500" />
+            <Link href="/dashboard" className="flex items-center gap-2 group">
+              <motion.div
+                className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Zap className="h-5 w-5 text-white" />
+              </motion.div>
               <span className="hidden text-xl font-bold text-white md:inline-block">
                 MicroCollab
               </span>
@@ -68,18 +75,24 @@ export function DashboardNavbar() {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
+              {navLinks.map((link, index) => (
+                <motion.div
                   key={link.href}
-                  href={link.href}
-                  className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    isActive(link.href)
-                      ? "bg-emerald-500/10 text-emerald-400"
-                      : "text-slate-300 hover:text-white hover:bg-white/5"
-                  }`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.2 }}
                 >
-                  {link.label}
-                </Link>
+                  <Link
+                    href={link.href}
+                    className={`relative px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      isActive(link.href)
+                        ? "bg-emerald-500/10 text-emerald-400"
+                        : "text-slate-300 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
           </div>
@@ -102,27 +115,38 @@ export function DashboardNavbar() {
           <GlobalSearch />
 
           {/* Right Side Actions */}
-          <div className="flex items-center gap-2">
+          <motion.div
+            className="flex items-center gap-2"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.3 }}
+          >
             {/* Quick Actions Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="outline"
+                  variant="gradient"
                   size="sm"
-                  className="hidden md:flex gap-2 bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-600"
+                  className="hidden md:flex gap-2"
+                  asChild
                 >
-                  <Plus className="h-4 w-4" />
-                  <span>New</span>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Plus className="h-4 w-4" />
+                    <span>New</span>
+                  </motion.button>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 bg-slate-800 border-slate-700">
                 <DropdownMenuLabel className="text-slate-300">Quick Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-slate-700" />
                 <DropdownMenuItem asChild className="text-slate-200 focus:bg-slate-700 focus:text-white">
-                  <Link href="/dashboard/post-request">Post Request</Link>
+                  <Link href="/post-request">Post Request</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="text-slate-200 focus:bg-slate-700 focus:text-white">
-                  <Link href="/dashboard/browse">Browse Requests</Link>
+                  <Link href="/browse">Browse Requests</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -151,13 +175,13 @@ export function DashboardNavbar() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-slate-700" />
                 <DropdownMenuItem asChild className="text-slate-200 focus:bg-slate-700 focus:text-white">
-                  <Link href="/dashboard/profile" className="flex items-center gap-2">
+                  <Link href="/profile" className="flex items-center gap-2">
                     <User className="h-4 w-4" />
                     Profile
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="text-slate-200 focus:bg-slate-700 focus:text-white">
-                  <Link href="/dashboard/settings" className="flex items-center gap-2">
+                  <Link href="/settings" className="flex items-center gap-2">
                     <Settings className="h-4 w-4" />
                     Settings
                   </Link>
@@ -222,10 +246,11 @@ export function DashboardNavbar() {
                     <div className="flex flex-col gap-2">
                       <Button
                         asChild
-                        className="w-full justify-start bg-emerald-500 hover:bg-emerald-600"
+                        variant="gradient"
+                        className="w-full justify-start"
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        <Link href="/dashboard/post-request">
+                        <Link href="/post-request">
                           <Plus className="h-4 w-4 mr-2" />
                           Post Request
                         </Link>
@@ -235,7 +260,7 @@ export function DashboardNavbar() {
                 </div>
               </SheetContent>
             </Sheet>
-          </div>
+          </motion.div>
         </div>
       </div>
     </header>

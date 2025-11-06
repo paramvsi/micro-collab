@@ -3,21 +3,24 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { motion } from "framer-motion";
+import { PricingModal } from "@/components/landing/PricingModal";
 
 const navLinks = [
-  { href: "#features", label: "Features" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "/about", label: "About" },
-  { href: "/help", label: "FAQ" },
+  { href: "#features", label: "Features", type: "anchor" as const },
+  { href: "#", label: "Pricing", type: "modal" as const },
+  { href: "/about", label: "About", type: "link" as const },
+  { href: "/help", label: "FAQ", type: "link" as const },
 ];
 
 export function MarketingHeader() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [pricingModalOpen, setPricingModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,10 +31,14 @@ export function MarketingHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith("#")) {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof navLinks[0]) => {
+    if (link.type === "modal") {
       e.preventDefault();
-      const element = document.querySelector(href);
+      setPricingModalOpen(true);
+      setMobileMenuOpen(false);
+    } else if (link.type === "anchor" && link.href.startsWith("#")) {
+      e.preventDefault();
+      const element = document.querySelector(link.href);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
         setMobileMenuOpen(false);
@@ -51,7 +58,13 @@ export function MarketingHeader() {
         <div className="flex h-16 md:h-20 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="h-8 w-8 md:h-10 md:w-10 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500 transition-transform group-hover:scale-110" />
+            <motion.div
+              className="h-8 w-8 md:h-10 md:w-10 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Zap className="h-5 w-5 md:h-6 md:w-6 text-white" />
+            </motion.div>
             <span className="text-xl md:text-2xl font-bold text-white">
               MicroCollab
             </span>
@@ -59,34 +72,56 @@ export function MarketingHeader() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleSmoothScroll(e, link.href)}
-                className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+            {navLinks.map((link, index) => (
+              <motion.div
+                key={link.label}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.3 }}
               >
-                {link.label}
-              </Link>
+                <Link
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link)}
+                  className="relative text-sm font-medium text-slate-300 hover:text-white transition-colors group"
+                >
+                  {link.label}
+                  <motion.span
+                    className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500"
+                    initial={{ width: 0 }}
+                    whileHover={{ width: "100%" }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </Link>
+              </motion.div>
             ))}
           </nav>
 
           {/* CTA Buttons (Desktop) */}
-          <div className="hidden md:flex items-center gap-3">
+          <motion.div
+            className="hidden md:flex items-center gap-3"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.3 }}
+          >
             <Button
               asChild
-              variant="ghost"
-              className="text-slate-300 hover:text-white hover:bg-white/10"
+              variant="gradient"
+              size="default"
             >
-              <Link href="/login">Log In</Link>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link href="/login">Log In</Link>
+              </motion.div>
             </Button>
             <Button
               asChild
-              className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white"
+              variant="gradient-accent"
+              size="default"
             >
-              <Link href="/signup">Sign Up</Link>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link href="/signup">Sign Up</Link>
+              </motion.div>
             </Button>
-          </div>
+          </motion.div>
 
           {/* Mobile Menu */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -112,9 +147,9 @@ export function MarketingHeader() {
                 <nav className="flex flex-col gap-2">
                   {navLinks.map((link) => (
                     <Link
-                      key={link.href}
+                      key={link.label}
                       href={link.href}
-                      onClick={(e) => handleSmoothScroll(e, link.href)}
+                      onClick={(e) => handleNavClick(e, link)}
                       className="px-4 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-md transition-colors"
                     >
                       {link.label}
@@ -126,8 +161,8 @@ export function MarketingHeader() {
                 <div className="flex flex-col gap-3 pt-6 border-t border-slate-700">
                   <Button
                     asChild
-                    variant="outline"
-                    className="w-full border-slate-600 text-slate-300 hover:text-white hover:bg-white/10"
+                    variant="gradient"
+                    className="w-full"
                   >
                     <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                       Log In
@@ -135,7 +170,8 @@ export function MarketingHeader() {
                   </Button>
                   <Button
                     asChild
-                    className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white"
+                    variant="gradient-accent"
+                    className="w-full"
                   >
                     <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
                       Sign Up
@@ -147,6 +183,9 @@ export function MarketingHeader() {
           </Sheet>
         </div>
       </div>
+
+      {/* Pricing Modal */}
+      <PricingModal open={pricingModalOpen} onOpenChange={setPricingModalOpen} />
     </header>
   );
 }

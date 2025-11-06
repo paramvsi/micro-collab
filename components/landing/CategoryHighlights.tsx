@@ -75,7 +75,7 @@ export function CategoryHighlights() {
   };
 
   return (
-    <section className="section-radial-focus relative overflow-hidden">
+    <section id="features" className="section-radial-focus relative overflow-hidden">
       {/* Background Accent Glows */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
