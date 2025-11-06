@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NotificationsDropdown } from "./NotificationsDropdown";
+import { GlobalSearch } from "./GlobalSearch";
 
 // Mock user data - replace with real auth
 const mockUser = {
@@ -29,6 +30,7 @@ const mockUser = {
 export function DashboardNavbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: null },
@@ -82,20 +84,22 @@ export function DashboardNavbar() {
             </nav>
           </div>
 
-          {/* Search Bar (Desktop) */}
+          {/* Search Bar (Desktop) - Trigger for Global Search */}
           <div className="hidden md:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <Input
-                type="search"
-                placeholder="Search requests, users, skills..."
-                className="w-full pl-10 bg-slate-800/50 border-slate-700 text-white placeholder:text-slate-400 focus:border-emerald-500"
-              />
-              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none hidden xl:inline-flex h-5 select-none items-center gap-1 rounded border border-slate-700 bg-slate-800 px-1.5 font-mono text-[10px] font-medium text-slate-400">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="relative w-full flex items-center gap-3 px-3 py-2 bg-slate-800/50 border border-slate-700 rounded-md hover:border-emerald-500/50 transition-colors text-left"
+            >
+              <Search className="h-4 w-4 text-slate-400" />
+              <span className="text-sm text-slate-400">Search requests, users, skills...</span>
+              <kbd className="ml-auto hidden xl:inline-flex h-5 select-none items-center gap-1 rounded border border-slate-700 bg-slate-800 px-1.5 font-mono text-[10px] font-medium text-slate-400">
                 <span className="text-xs">⌘</span>K
               </kbd>
-            </div>
+            </button>
           </div>
+
+          {/* Global Search Modal */}
+          <GlobalSearch />
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-2">
